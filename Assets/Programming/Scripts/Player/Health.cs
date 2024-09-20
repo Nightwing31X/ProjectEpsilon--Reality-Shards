@@ -18,6 +18,9 @@ namespace Player
         [SerializeField] private bool canHeal = true;
         [SerializeField] private bool safeZone = false;
         private GameObject HUD;
+        [SerializeField] private Image healthIMG_One;
+        [SerializeField] private Image healthIMG_Two;
+        [SerializeField] private Image healthIMG_Three;
         private GameObject gameoverContainer;
         private GameObject mainCamera;
         [SerializeField] public bool isPlayerDead = false;
@@ -51,7 +54,7 @@ namespace Player
         public IEnumerator WaitForPlay(float waitTime)
         {
             yield return new WaitForSeconds(waitTime);
-            Debug.Log("Waited...");
+            //Debug.Log("Waited...");
             GameManager.instance.OnPlay();
         }
 
@@ -134,6 +137,10 @@ namespace Player
             gameoverContainer = GameObject.Find("GameoverContainer");
             // Turn off GameOver Menu
             gameoverContainer.SetActive(false);
+
+            healthIMG_One.enabled = false;
+            healthIMG_Two.enabled = false;
+            healthIMG_Three.enabled = false;
         }
         private void Start()
         {
@@ -155,6 +162,18 @@ namespace Player
                 // Do a Thing!!
                 Debug.Log("Hit!");
                 DamagePlayer(10);
+                if (currentHealth <= 99)
+                {
+                    healthIMG_One.enabled = true;
+                    if (currentHealth <= 50)
+                    {
+                        healthIMG_Two.enabled = true;
+                        if (currentHealth <= 10)
+                        {
+                            healthIMG_Three.enabled = true;
+                        }
+                    }
+                }
             }
         }
         private void OnTriggerEnter(Collider other)

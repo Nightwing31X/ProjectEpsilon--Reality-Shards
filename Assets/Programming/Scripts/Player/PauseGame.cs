@@ -92,6 +92,7 @@ public class PauseGame : MonoBehaviour
         PausedMenu = false;
         MenuPaused.SetActive(PausedMenu);
         PlayerHUD.SetActive(true);
+        //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     public void Exit(string LevelName)

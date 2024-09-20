@@ -17,6 +17,7 @@ namespace Player
         // Walk, Crouch, Sprint, Jump, Gravity
         [SerializeField] float _movementSpeed, _walk = 5, _run = 10, _crouch = 2.5f, _jump = 8, _gravity = 20;
 
+        public GameObject staminaContainerOBJ;
         public Image staminaBar;
         [SerializeField] public float _stamina, _maxStamina = 100, _currentStaminaCost;
         //private float _stamina, _maxStamina = 100, _currentStaminaCost;
@@ -24,7 +25,10 @@ namespace Player
         [SerializeField] private bool isRunning;
         [SerializeField] private bool _canRegenStamina = true;
         [SerializeField] private bool safeZone = false;
+        [SerializeField] public float timerDuration = 3.0f;
         [SerializeField] public float timerValue;
+        private Vector3 _lastPos;
+        [SerializeField] private bool playerMoving = false;
         //[SerializeField] bool isPlayerDead;
 
 
@@ -54,7 +58,7 @@ namespace Player
                 if (!_canRegenStamina)
                 { 
                     timerValue += Time.deltaTime;
-                    if(timerValue >= 3.0f) 
+                    if(timerValue >= timerDuration) 
                     {
                         // Allow Regen
                         _canRegenStamina = true;
@@ -91,12 +95,13 @@ namespace Player
 
         private void Awake()
         {
+            playerMoving = false;
             _characterController = GetComponent<CharacterController>();
 
             _stamina = _maxStamina;
-
             staminaBar.fillAmount = _stamina / _maxStamina;
             _currentStaminaCost = _staminaCost;
+            staminaContainerOBJ.SetActive(false);
 
             //isPlayerDead = GetComponent<Health>().isPlayerDead;
         }
@@ -109,13 +114,26 @@ namespace Player
             // Singleton Pattern 
             if (GameManager.instance.state == GameStates.Play)
             {
+                if (_characterController.transform.position != _lastPos)
+                {
+                    //Player has moved
+                    playerMoving = true;
+                    //Debug.Log("Yep moving...");
+                }
+                else
+                {
+                    //Player has not moved
+                    playerMoving = false;
+                    //Debug.Log("Nope not moving...");
+                }
+                _lastPos = _characterController.transform.position;
                 // Speed change
                 // _movementSpeed, _walk, _run, _crouch
                 // Left Shift and Left Control
-                #region Option 1
-                if (Input.GetKey(KeyCode.LeftShift))
+                if (Input.GetKey(KeyCode.LeftShift) && playerMoving)
                 {
                     //_movementSpeed = _run;
+                    staminaContainerOBJ.SetActive(true);
                     Sprint();
                     isRunning = true;
                     _canRegenStamina = false;
@@ -129,18 +147,17 @@ namespace Player
                 {
                     _movementSpeed = _walk;
                     isRunning = false;
-
                     if (!isRunning)
                     {
                         regenStamina();
                     }
+                    if (_stamina == 100)
+                    {
+                        staminaContainerOBJ.SetActive(false);
+                    }
                 }
-                #endregion
-                #region Option 2 - Not Using
-                //_movementSpeed = Input.GetKey(KeyCode.LeftShift) ? _run : Input.GetKey(KeyCode.LeftControl) ? _crouch : _walk;
-                #endregion
                 // Moving the character 
-                // If our reference to the character controller has a value aka we connected it yay!!! woop
+                // If our reference to the character controll`er has a value aka we connected it yay!!! woop
                 if (_characterController != null)
                 {
                     // Check if we are on the ground so we can move coz that's how people work
