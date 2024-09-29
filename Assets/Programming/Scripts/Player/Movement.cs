@@ -22,7 +22,7 @@ namespace Player
         [SerializeField] public float _stamina, _maxStamina = 100, _currentStaminaCost;
         //private float _stamina, _maxStamina = 100, _currentStaminaCost;
         [SerializeField] private float _staminaCost = 20;
-        [SerializeField] private bool isRunning;
+        [SerializeField] private bool _isRunning;
         [SerializeField] private bool _canRegenStamina = true;
         [SerializeField] private bool safeZone = false;
         [SerializeField] public float timerDuration = 3.0f;
@@ -53,7 +53,7 @@ namespace Player
 
         void Timer()
         {
-            if (!isRunning)
+            if (!_isRunning)
             {
                 if (!_canRegenStamina)
                 { 
@@ -64,8 +64,14 @@ namespace Player
                         _canRegenStamina = true;
                         // Reset timer
                         timerValue = 0;
+                        // Reset player's movement speed back to walking speed
                     }
                 }
+            }
+            else if (_isRunning && _movementSpeed == _run && _stamina == 0)
+            {
+                //Debug.Log("Hey I should be out of running and be walking right now!!!");
+                _movementSpeed = _walk;
             }
         }
         void regenStamina()
@@ -135,19 +141,23 @@ namespace Player
                     //_movementSpeed = _run;
                     staminaContainerOBJ.SetActive(true);
                     Sprint();
-                    isRunning = true;
+                    _isRunning = true;
                     _canRegenStamina = false;
                     timerValue = 0;
                 }
                 else if (Input.GetKey(KeyCode.LeftControl))
                 {
                     _movementSpeed = _crouch;
+                    if (!_isRunning)
+                    {
+                        regenStamina();
+                    }
                 }
                 else
                 {
                     _movementSpeed = _walk;
-                    isRunning = false;
-                    if (!isRunning)
+                    _isRunning = false;
+                    if (!_isRunning)
                     {
                         regenStamina();
                     }
