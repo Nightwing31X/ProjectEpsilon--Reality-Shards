@@ -39,22 +39,22 @@ public class OpenChest : MonoBehaviour, IInteractable
             KeyMissingText.SetActive(false);
             isOpen = true;
         }
-        else if (keyOBJNeeded.activeInHierarchy)
+        else if (!keyOBJNeeded.activeInHierarchy)
         {
             StartCoroutine(Delay());
         }
 
         if (isOpen)
         {
-            chestOBJ.GetComponent<OpenChest>().enabled = false;
-            // int LayerIgnoreRaycast = LayerMask.NameToLayer("Default");
-            // chestOBJ.layer = LayerIgnoreRaycast;
-            // Debug.Log("Current layer: " + chestOBJ.layer);
+            int LayerIgnoreRaycast = LayerMask.NameToLayer("Default");
+            chestOBJ.layer = LayerIgnoreRaycast;
+            //Debug.Log("Current layer: " + chestOBJ.layer);
         }
     }
 
     public void Interact()
     {
+        openChest();
         Debug.Log("Opened Chest...");
     }
 }

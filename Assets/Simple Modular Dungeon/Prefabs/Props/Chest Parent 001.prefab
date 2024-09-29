@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2391575981505123383}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Chest Parent 001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43,8 +43,7 @@ GameObject:
   - component: {fileID: 2700219246678959945}
   - component: {fileID: 6825235953106965835}
   - component: {fileID: 6946281411633895374}
-  - component: {fileID: 6304985891570069146}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Chest Variation 001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -117,24 +116,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &6304985891570069146
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7269347836744094840}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1.5635518, y: 1.2241199, z: 1.7656705}
-  m_Center: {x: -0.16338664, y: 0.6102687, z: 0.05647102}

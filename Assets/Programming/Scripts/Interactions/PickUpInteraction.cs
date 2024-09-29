@@ -23,6 +23,7 @@ public class PickUpInteraction : MonoBehaviour, IInteractable
 
     public void Interact()
     {
+        PickUp_Key();
         Debug.Log("Picked Up key...");
     }
 }
