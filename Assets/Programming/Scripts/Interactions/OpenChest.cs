@@ -7,9 +7,11 @@ public class OpenChest : MonoBehaviour, IInteractable
     public Animator chestANIM;
     public GameObject chestOBJ;
     public GameObject keyOBJNeeded;
+    public GameObject objInINV;
     public GameObject KeyMissingText;
 
     public bool isOpen = false;
+    public bool insideOBJ = false;
 
     public AudioSource Unlocked;
     public AudioSource Locked;
@@ -35,6 +37,10 @@ public class OpenChest : MonoBehaviour, IInteractable
         {
             Unlocked.Play();
             keyOBJNeeded.SetActive(false);
+            if (insideOBJ)
+            {
+                objInINV.SetActive(true);
+            }
             chestANIM.SetBool("open", true);
             KeyMissingText.SetActive(false);
             isOpen = true;

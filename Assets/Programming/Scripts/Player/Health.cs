@@ -18,12 +18,12 @@ namespace Player
         [SerializeField] private bool canHeal = true;
         [SerializeField] private bool safeZone = false;
         private GameObject HUD;
-        [SerializeField] private Image healthIMG_One;
-        [SerializeField] private Image healthIMG_Two;
-        [SerializeField] private Image healthIMG_Three;
+        [SerializeField] private Image healthImpact;
         private GameObject gameoverContainer;
         private GameObject mainCamera;
         [SerializeField] public bool isPlayerDead = false;
+        public GameObject particalAura;
+        
 
 
         public void DamagePlayer(float damageValue)
@@ -37,6 +37,19 @@ namespace Player
         {
             displayImage.fillAmount = Mathf.Clamp01(currentHealth / maxHealth);
             displayImage.color = gradientHealth.Evaluate(displayImage.fillAmount);
+
+            //float transparency = 1f - (currentHealth / 100f);
+            //Color imageColour = Color.white;
+            //imageColour.a = transparency;
+            //healthImpact.color = imageColour;
+        }
+
+        void HealthDamageImpact()
+        {
+            float transparency = 1f - (currentHealth / 100f);
+            Color imageColor = Color.white;
+            imageColor.a = transparency;
+            healthImpact.color = imageColor;
         }
         void Death()
         {
@@ -79,8 +92,6 @@ namespace Player
             StartCoroutine(WaitForPlay(0.2f));
         }
 
-
-
         void HealthOverTime()
         {
             if (canHeal)
@@ -93,23 +104,25 @@ namespace Player
                         {
                             currentRegenValue = regenValue * 2;
                         }
-                        Debug.Log(currentRegenValue);
+                        //Debug.Log(currentRegenValue);
                         currentHealth += currentRegenValue * Time.deltaTime;
                         UpdateUI();
+                        particalAura.SetActive(true);
                         //Debug.Log("In safeZone...");
                     }
-                    else
-                    {
-                        // Current health to increase by a value over time
-                        currentHealth += currentRegenValue * Time.deltaTime;
-                        UpdateUI();
-                        //Debug.Log("Out of safeZone...");
-                    }
+                    //else
+                    //{
+                    //    // Current health to increase by a value over time
+                    //    currentHealth += currentRegenValue * Time.deltaTime;
+                    //    UpdateUI();
+                    //    //Debug.Log("Out of safeZone...");
+                    //}
                 }
             }
             if (currentHealth > maxHealth)
             {
                 currentHealth = maxHealth;
+                particalAura.SetActive(false);
             }
         }
         public void Timer()
@@ -137,10 +150,6 @@ namespace Player
             gameoverContainer = GameObject.Find("GameoverContainer");
             // Turn off GameOver Menu
             gameoverContainer.SetActive(false);
-
-            healthIMG_One.enabled = false;
-            healthIMG_Two.enabled = false;
-            healthIMG_Three.enabled = false;
         }
         private void Start()
         {
@@ -150,6 +159,7 @@ namespace Player
         }
         private void Update()
         {
+            HealthDamageImpact();
             HealthOverTime();
             Death();
             Timer();
@@ -162,18 +172,18 @@ namespace Player
                 // Do a Thing!!
                 Debug.Log("Hit!");
                 DamagePlayer(10);
-                if (currentHealth <= 99)
-                {
-                    healthIMG_One.enabled = true;
-                    if (currentHealth <= 50)
-                    {
-                        healthIMG_Two.enabled = true;
-                        if (currentHealth <= 10)
-                        {
-                            healthIMG_Three.enabled = true;
-                        }
-                    }
-                }
+                //if (currentHealth <= 99)
+                //{
+                //    healthIMG_One.enabled = true;
+                //    if (currentHealth <= 50)
+                //    {
+                //        healthIMG_Two.enabled = true;
+                //        if (currentHealth <= 10)
+                //        {
+                //            healthIMG_Three.enabled = true;
+                //        }
+                //    }
+                //}
             }
         }
         private void OnTriggerEnter(Collider other)
