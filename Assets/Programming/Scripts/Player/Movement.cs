@@ -28,7 +28,11 @@ namespace Player
         [SerializeField] public float timerDuration = 3.0f;
         [SerializeField] public float timerValue;
         private Vector3 _lastPos;
-        [SerializeField] private bool playerMoving = false;
+        [SerializeField] private bool _playerMoving = false;
+        [Tooltip("The audio clips for jumping. (Will be randomly selected from.)")]
+        [SerializeField] private AudioClip[] _jumpClips;
+        [SerializeField] private AudioSource _AudioSourceREF;
+
         //[SerializeField] bool isPlayerDead;
 
 
@@ -56,9 +60,9 @@ namespace Player
             if (!_isRunning)
             {
                 if (!_canRegenStamina)
-                { 
+                {
                     timerValue += Time.deltaTime;
-                    if(timerValue >= timerDuration) 
+                    if (timerValue >= timerDuration)
                     {
                         // Allow Regen
                         _canRegenStamina = true;
@@ -76,13 +80,13 @@ namespace Player
         }
         void regenStamina()
         {
-            if (_canRegenStamina) 
+            if (_canRegenStamina)
             {
                 if (safeZone)
                 {
                     if (_currentStaminaCost == _staminaCost)
                     {
-                        _currentStaminaCost = _staminaCost*2;
+                        _currentStaminaCost = _staminaCost * 2;
                     }
                     _stamina += _staminaCost * Time.deltaTime;
                     staminaBar.fillAmount = _stamina / _maxStamina;
@@ -101,8 +105,9 @@ namespace Player
 
         private void Awake()
         {
-            playerMoving = false;
+            _playerMoving = false;
             _characterController = GetComponent<CharacterController>();
+            _AudioSourceREF = GetComponent<AudioSource>();
 
             _stamina = _maxStamina;
             staminaBar.fillAmount = _stamina / _maxStamina;
@@ -123,20 +128,21 @@ namespace Player
                 if (_characterController.transform.position != _lastPos)
                 {
                     //Player has moved
-                    playerMoving = true;
+                    _playerMoving = true;
                     //Debug.Log("Yep moving...");
                 }
                 else
                 {
                     //Player has not moved
-                    playerMoving = false;
+                    _playerMoving = false;
                     //Debug.Log("Nope not moving...");
                 }
                 _lastPos = _characterController.transform.position;
+
                 // Speed change
                 // _movementSpeed, _walk, _run, _crouch
                 // Left Shift and Left Control
-                if (Input.GetKey(KeyCode.LeftShift) && playerMoving)
+                if (Input.GetKey(KeyCode.LeftShift) && _playerMoving)
                 {
                     //_movementSpeed = _run;
                     staminaContainerOBJ.SetActive(true);
@@ -187,6 +193,11 @@ namespace Player
                         {
                             // Move up
                             _moveDirection.y = _jump;
+                            if (_AudioSourceREF != null && _jumpClips.Length > 0)
+                            {
+                                //Debug.Log("Jumped...");
+                                _AudioSourceREF.PlayOneShot(_jumpClips[Random.Range(0, _jumpClips.Length)]);
+                            }
                         }
                     }
                     // Add gravity to direction
@@ -204,7 +215,7 @@ namespace Player
 
         private void OnTriggerEnter(Collider other)
         {
-            if (!safeZone) 
+            if (!safeZone)
             {
                 if (other.gameObject.tag == "Safezone")
                 {

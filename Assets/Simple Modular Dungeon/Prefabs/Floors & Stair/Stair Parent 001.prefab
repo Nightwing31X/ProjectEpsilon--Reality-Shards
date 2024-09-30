@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 4606167238157180855}
   - component: {fileID: 8348891072139079048}
   - component: {fileID: 4851101540605966300}
-  - component: {fileID: 3726238608605439505}
   m_Layer: 0
   m_Name: Stair Variation 001
   m_TagString: Untagged
@@ -28,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 1010340590864244028}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.25}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -84,28 +83,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &3726238608605439505
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1010340590864244028}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -4642463297212027916, guid: a59f6548c14dfa84ba2ca07e21ce1543, type: 3}
 --- !u!1 &4477578522584832408
 GameObject:
   m_ObjectHideFlags: 0
@@ -131,13 +108,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4477578522584832408}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.22546417, y: -0, z: -0, w: 0.9742515}
-  m_LocalPosition: {x: -0.1, y: 0.4, z: 0.29}
-  m_LocalScale: {x: 3, y: 3, z: 5.5143814}
+  m_LocalRotation: {x: 0.2206974, y: 0, z: 0, w: 0.9753424}
+  m_LocalPosition: {x: 0, y: 0.5, z: 0.3}
+  m_LocalScale: {x: 3, y: 3, z: 5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 624773672501546919}
-  m_LocalEulerAnglesHint: {x: 26.06, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 25.5, y: 0, z: 0}
 --- !u!65 &8426424119641208304
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -157,8 +134,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 0.9137683}
-  m_Center: {x: 0, y: -1.01145536e-10, z: -0.032993242}
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &5706971096275498080
 GameObject:
   m_ObjectHideFlags: 0

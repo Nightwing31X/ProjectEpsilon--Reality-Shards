@@ -23,15 +23,27 @@ namespace Player
         private GameObject mainCamera;
         [SerializeField] public bool isPlayerDead = false;
         public GameObject particalAura;
-        
+
+        [Tooltip("The audio clips for talking damage. (Will be randomly selected from.)")]
+        [SerializeField] private AudioClip[] _damageClips;
+        [SerializeField] private AudioSource _AudioSourceREF;
+
 
 
         public void DamagePlayer(float damageValue)
         {
+            Debug.Log("yeah this is running...");
+            Debug.Log(_AudioSourceREF);
+            Debug.Log(_damageClips.Length);
+            if (_AudioSourceREF != null && _damageClips.Length > 0)
+            {
+                Debug.Log("Play hit sound...");
+                _AudioSourceREF.PlayOneShot(_damageClips[Random.Range(0, _damageClips.Length)]);
+            }
             timerValue = 0;
             canHeal = false;
             currentHealth -= damageValue;
-            UpdateUI();
+            //UpdateUI();
         }
         void UpdateUI()
         {
@@ -108,15 +120,7 @@ namespace Player
                         currentHealth += currentRegenValue * Time.deltaTime;
                         UpdateUI();
                         particalAura.SetActive(true);
-                        //Debug.Log("In safeZone...");
                     }
-                    //else
-                    //{
-                    //    // Current health to increase by a value over time
-                    //    currentHealth += currentRegenValue * Time.deltaTime;
-                    //    UpdateUI();
-                    //    //Debug.Log("Out of safeZone...");
-                    //}
                 }
             }
             if (currentHealth > maxHealth)
@@ -153,6 +157,7 @@ namespace Player
         }
         private void Start()
         {
+            _AudioSourceREF = GetComponent<AudioSource>();
             currentHealth = maxHealth;
             currentRegenValue = regenValue;
             displayImage.fillAmount = 1;
@@ -184,6 +189,10 @@ namespace Player
                 //        }
                 //    }
                 //}
+            }
+            else if (collision.gameObject.tag == "FireDamage")
+            {
+                DamagePlayer(15);
             }
         }
         private void OnTriggerEnter(Collider other)
