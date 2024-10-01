@@ -15,7 +15,10 @@ namespace Player
         [SerializeField] Gradient gradientHealth;
         [SerializeField] public Transform spawnPoint;
         [SerializeField] private float timerValue;
+        [SerializeField] private float damageTimer;
+        [SerializeField] private float environmentalDamagePerSeconds = 1.5f;
         [SerializeField] private bool canHeal = true;
+        [SerializeField] private bool isHurt = false;
         [SerializeField] private bool safeZone = false;
         private GameObject HUD;
         [SerializeField] private Image healthImpact;
@@ -29,32 +32,25 @@ namespace Player
         [SerializeField] private AudioSource _AudioSourceREF;
 
 
-
         public void DamagePlayer(float damageValue)
         {
-            Debug.Log("yeah this is running...");
-            Debug.Log(_AudioSourceREF);
-            Debug.Log(_damageClips.Length);
             if (_AudioSourceREF != null && _damageClips.Length > 0)
             {
                 Debug.Log("Play hit sound...");
                 _AudioSourceREF.PlayOneShot(_damageClips[Random.Range(0, _damageClips.Length)]);
             }
             timerValue = 0;
+            damageTimer = 0;
             canHeal = false;
+            isHurt = true;
             currentHealth -= damageValue;
             //UpdateUI();
         }
-        void UpdateUI()
-        {
-            displayImage.fillAmount = Mathf.Clamp01(currentHealth / maxHealth);
-            displayImage.color = gradientHealth.Evaluate(displayImage.fillAmount);
-
-            //float transparency = 1f - (currentHealth / 100f);
-            //Color imageColour = Color.white;
-            //imageColour.a = transparency;
-            //healthImpact.color = imageColour;
-        }
+        //void UpdateUI()
+        //{
+        //    displayImage.fillAmount = Mathf.Clamp01(currentHealth / maxHealth);
+        //    displayImage.color = gradientHealth.Evaluate(displayImage.fillAmount);
+        //}
 
         void HealthDamageImpact()
         {
@@ -76,33 +72,33 @@ namespace Player
             }
         }
 
-        public IEnumerator WaitForPlay(float waitTime)
-        {
-            yield return new WaitForSeconds(waitTime);
-            //Debug.Log("Waited...");
-            GameManager.instance.OnPlay();
-        }
+        //public IEnumerator WaitForPlay(float waitTime)
+        //{
+        //    yield return new WaitForSeconds(waitTime);
+        //    //Debug.Log("Waited...");
+        //    GameManager.instance.OnPlay();
+        //}
 
 
-        public void Respawn()
-        {
-            // Player is back to life
-            isPlayerDead = false;
-            // Fix health
-            currentHealth = maxHealth;
-            // Fix the Stamina
-            GetComponent<Movement>()._stamina = GetComponent<Movement>()._maxStamina;
-            // Turn on Health Menu
-            HUD.SetActive(true);
-            // Turn on GameOver Menu
-            gameoverContainer.SetActive(false);
-            // Move the player
-            transform.position = spawnPoint.position;
-            transform.rotation = spawnPoint.rotation;
-            // Fix display of health
-            UpdateUI();
-            StartCoroutine(WaitForPlay(0.2f));
-        }
+        //public void Respawn()
+        //{
+        //    // Player is back to life
+        //    isPlayerDead = false;
+        //    // Fix health
+        //    currentHealth = maxHealth;
+        //    // Fix the Stamina
+        //    GetComponent<Movement>()._stamina = GetComponent<Movement>()._maxStamina;
+        //    // Turn on Health Menu
+        //    HUD.SetActive(true);
+        //    // Turn on GameOver Menu
+        //    gameoverContainer.SetActive(false);
+        //    // Move the player
+        //    transform.position = spawnPoint.position;
+        //    transform.rotation = spawnPoint.rotation;
+        //    // Fix display of health
+        //    //UpdateUI();
+        //    StartCoroutine(WaitForPlay(0.2f));
+        //}
 
         void HealthOverTime()
         {
@@ -118,7 +114,7 @@ namespace Player
                         }
                         //Debug.Log(currentRegenValue);
                         currentHealth += currentRegenValue * Time.deltaTime;
-                        UpdateUI();
+                        //UpdateUI();
                         particalAura.SetActive(true);
                     }
                 }
@@ -140,6 +136,16 @@ namespace Player
                     canHeal = true;
                     // Reset timer
                     timerValue = 0;
+                }
+            }
+            if (isHurt)
+            {
+                damageTimer += Time.deltaTime;
+                if (damageTimer >= environmentalDamagePerSeconds)
+                {
+                    isHurt = false;
+                    // Reset Timer - so player can be hurt again
+                    damageTimer = 0;
                 }
             }
         }
@@ -171,28 +177,30 @@ namespace Player
         }
         private void OnCollisionEnter(Collision collision)
         {
-
             if (collision.gameObject.tag == "Damage")
             {
-                // Do a Thing!!
-                Debug.Log("Hit!");
                 DamagePlayer(10);
-                //if (currentHealth <= 99)
-                //{
-                //    healthIMG_One.enabled = true;
-                //    if (currentHealth <= 50)
-                //    {
-                //        healthIMG_Two.enabled = true;
-                //        if (currentHealth <= 10)
-                //        {
-                //            healthIMG_Three.enabled = true;
-                //        }
-                //    }
-                //}
             }
             else if (collision.gameObject.tag == "FireDamage")
             {
                 DamagePlayer(15);
+            }
+        }
+        private void OnCollisionStay(Collision collision)
+        {
+            if (collision.gameObject.tag == "Damage")
+            {
+                if (!isHurt)
+                {
+                    DamagePlayer(10);
+                }
+            }
+            else if (collision.gameObject.tag == "FireDamage")
+            {
+                if (!isHurt)
+                {
+                    DamagePlayer(15);
+                }
             }
         }
         private void OnTriggerEnter(Collider other)

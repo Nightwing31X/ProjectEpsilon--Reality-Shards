@@ -6,6 +6,6 @@ public class TestInteractions : MonoBehaviour, IInteractable
 {
     public void Interact()
     {
-        Debug.Log("Bob.");
+        Debug.Log("Test Interaction has worked...");
     }
 }
