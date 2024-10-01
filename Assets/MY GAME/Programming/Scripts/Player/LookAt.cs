@@ -14,7 +14,6 @@ public class LookAt : MonoBehaviour
     {
         yield return new WaitForSeconds(SecsOfReading);
         inCutscene = false;
-        GameManager.instance.OnPlay();
     }
 
     public void RotateToObject()
@@ -22,7 +21,6 @@ public class LookAt : MonoBehaviour
         Vector3 direction = lookAtOBJ.position - Camera.main.transform.position;
         Quaternion rotationToOBJ = Quaternion.LookRotation(direction);
         Camera.main.transform.rotation = Quaternion.Lerp(Camera.main.transform.rotation, rotationToOBJ, 2 * Time.deltaTime);
-        GameManager.instance.OnMenu();
         StartCoroutine(Delay());
     }
 
@@ -32,7 +30,6 @@ public class LookAt : MonoBehaviour
         {
             inCutscene = true;
             //GetComponent<Dialogue>().talkToSelf();
-            GetComponent<BoxCollider>().enabled = false;
         }
     }
 

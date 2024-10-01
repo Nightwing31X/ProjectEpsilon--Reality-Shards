@@ -16,6 +16,10 @@ public class Prompts : MonoBehaviour
     [SerializeField][TextArea] private string textContent;
     //[SerializeField] private string[] textContent; //? Could make an array
     bool textOn = false;
+    [SerializeField] bool _inDialogue = false;
+    [SerializeField] bool _removeTrigger = false;
+
+    [SerializeField] bool stayInPlace = false;
 
     // Start is called before the first frame update
     void Start()
@@ -32,7 +36,7 @@ public class Prompts : MonoBehaviour
         if (textOn)
         {
             TextOBJ.SetActive(textOn);
-            Debug.Log("Prompts...");
+            //Debug.Log("Prompts...");
         }
     }
 
@@ -40,14 +44,27 @@ public class Prompts : MonoBehaviour
     {
         if (other.tag == "Player")
         {
+            _inDialogue = true;
+            GameManager.instance.inDialogue = _inDialogue;
             TextPrompt();
         }
     }
-    
+
     public void TextPrompt()
     {
         textOn = true;
         StartCoroutine(ShowPromptText());
+        if (stayInPlace)
+        {
+            if (GameManager.instance.state != GameStates.Menu)
+            {
+                GameManager.instance.OnMenu();
+            }
+        }
+        if (_removeTrigger)
+        {
+            GetComponent<BoxCollider>().enabled = false;
+        }
     }
     public void HideTextPrompt()
     {
@@ -59,5 +76,11 @@ public class Prompts : MonoBehaviour
         SubTxt.text = string.Format(textContent);
         yield return new WaitForSeconds(SecondsOfReading);
         HideTextPrompt();
+        if (GameManager.instance.state != GameStates.Play)
+        {
+            GameManager.instance.OnPlay();
+        }
+        _inDialogue = false;
+        GameManager.instance.inDialogue = _inDialogue;
     }
 }

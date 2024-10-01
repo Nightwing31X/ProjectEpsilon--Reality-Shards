@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44664693, g: 0.49649364, b: 0.5748597, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2152,7 +2152,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!108 &315136620
 Light:
   m_ObjectHideFlags: 0
@@ -4280,9 +4280,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a95d6d772d63b544bbde72d99956989, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactionLayer:
+  Layers:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 0
+  targetLayer: 
   debug: 1
   distance: 2
   showToolTip: 0
@@ -5136,7 +5137,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &870146343
 MonoBehaviour:
   m_ObjectHideFlags: 0

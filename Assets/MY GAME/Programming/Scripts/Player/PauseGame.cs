@@ -66,7 +66,7 @@ public class PauseGame : MonoBehaviour
     private void CheckState()
     {
         GameManager.instance.inPause = false;
-        bool _inDialogue = GameManager.instance.inDialogue;
+        _inDialogue = GameManager.instance.inDialogue;
         if (_inDialogue)
         {
             GameManager.instance.OnMenu();
