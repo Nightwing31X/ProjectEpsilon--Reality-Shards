@@ -7,7 +7,8 @@ namespace Player
     public class Interact : MonoBehaviour
     {
         //public GUIStyle crossHair, tooltip;
-        public LayerMask interactionLayer;
+        public LayerMask Layers;
+        public string targetLayer;
         [Tooltip("Toggle on to print console messages from this component.")]
         [SerializeField] private bool debug;
         // [Tooltip("The distance that the player can reach interactions.")]
@@ -26,28 +27,37 @@ namespace Player
             // create hit info (this holds the info for the stuff we interact with) 
             RaycastHit hitInfo;
             // if this physics ray that gets cast in a direction hits a object within our distance and or layer
-            if (Physics.Raycast(interactRay, out hitInfo, distance, interactionLayer /*This part here is the layer its optional*/ ))
+            if (Physics.Raycast(interactRay, out hitInfo, distance, Layers /*This part here is the layer its optional*/ ))
             {
                 if (debug)
                 {
                     Debug.DrawRay(transform.position, transform.forward * distance, Color.yellow, 0.5f);
                 }
-                showToolTip = true;
-                OnGUI();
-                // if our interaction button or key is pressed
-                if (Input.GetButtonDown("Interaction"))
+                if (hitInfo.transform.gameObject.layer == LayerMask.NameToLayer(targetLayer))
                 {
-                    if (hitInfo.collider.TryGetComponent(out IInteractable interactableObject))
+                    Debug.Log("Hit the right thing...");
+                    showToolTip = true;
+                    OnGUI();
+                    if (Input.GetButtonDown("Interaction"))
                     {
-                        interactableObject.Interact();
+                        if (hitInfo.collider.TryGetComponent(out IInteractable interactableObject))
+                        {
+                            interactableObject.Interact();
+                        }
                     }
                 }
+                else
+                {
+                    showToolTip = false;
+                    PickUpText.SetActive(false); //# Pickup text turns off
+                }
+                // if our interaction button or key is pressed
             }
-            else
-            {
-                showToolTip = false;
-                PickUpText.SetActive(false); //# Pickup text turns off
-            }
+            //else
+            //{
+            //    showToolTip = false;
+            //    PickUpText.SetActive(false); //# Pickup text turns off
+            //}
         }
         void OnGUI()
         {
