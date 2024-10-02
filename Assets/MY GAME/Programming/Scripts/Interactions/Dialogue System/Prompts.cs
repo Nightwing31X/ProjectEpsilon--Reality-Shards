@@ -36,7 +36,6 @@ public class Prompts : MonoBehaviour
         if (textOn)
         {
             TextOBJ.SetActive(textOn);
-            //Debug.Log("Prompts...");
         }
     }
 
@@ -44,9 +43,13 @@ public class Prompts : MonoBehaviour
     {
         if (other.tag == "Player")
         {
+            // _inDialogue = GameManager.instance.inDialogue;
+            // if (!_inDialogue)
+            // {
             _inDialogue = true;
             GameManager.instance.inDialogue = _inDialogue;
             TextPrompt();
+            // }
         }
     }
 

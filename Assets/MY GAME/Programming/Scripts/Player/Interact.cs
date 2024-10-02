@@ -35,7 +35,7 @@ namespace Player
                 }
                 if (hitInfo.transform.gameObject.layer == LayerMask.NameToLayer(targetLayer))
                 {
-                    Debug.Log("Hit the right thing...");
+                    //Debug.Log("Hit the right thing...");
                     showToolTip = true;
                     OnGUI();
                     if (Input.GetButtonDown("Interaction"))

@@ -7,7 +7,6 @@ public class RayDoor : MonoBehaviour, IInteractable
     public Animator animator;
     public bool isOpen = false;
     public bool lockedDoor = false;
-    public bool autoCloseDoor = false;
     public GameObject keyOBJNeeded;
     public GameObject LockedDoorText;
 

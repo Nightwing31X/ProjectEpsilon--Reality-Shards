@@ -24,10 +24,16 @@ public class ObjLook : MonoBehaviour {
         switch (billboardType)
         {
             case BillboardType.LookAtCamera:
-                transform.LookAt(Camera.main.transform.position, Vector3.up);
+                if (Camera.main != null)
+                {
+                    transform.LookAt(Camera.main.transform.position, Vector3.up);
+                }
                 break;
             case BillboardType.CameraForward:
-                transform.forward = Camera.main.transform.forward;
+                if (Camera.main != null)
+                {
+                    transform.forward = Camera.main.transform.forward;
+                }   
                 break;
             default:
                 break;
