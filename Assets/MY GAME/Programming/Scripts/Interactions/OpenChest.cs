@@ -11,6 +11,8 @@ public class OpenChest : MonoBehaviour, IInteractable
     public GameObject KeyMissingText;
 
     public bool isOpen = false;
+    public bool isLastChest = false;
+    public bool noKeyNeeded = false;
     public bool insideOBJ = false;
 
     public AudioSource Unlocked;
@@ -18,8 +20,14 @@ public class OpenChest : MonoBehaviour, IInteractable
     // Start is called before the first frame update
     void Start()
     {
-        KeyMissingText.SetActive(false);
-        keyOBJNeeded.SetActive(false);
+        if (KeyMissingText != null)
+        {
+            KeyMissingText.SetActive(false);
+        }
+        if (keyOBJNeeded != null)
+        {
+            keyOBJNeeded.SetActive(false);
+        }
         isOpen = false;
     }
 
@@ -33,7 +41,33 @@ public class OpenChest : MonoBehaviour, IInteractable
 
     public void openChest()
     {
-        if (keyOBJNeeded.activeInHierarchy)
+        if (!noKeyNeeded)
+        {
+            if (keyOBJNeeded.activeInHierarchy)
+            {
+                Unlocked.Play();
+                keyOBJNeeded.SetActive(false);
+                if (insideOBJ)
+                {
+                    objInINV.SetActive(true);
+                }
+                if (isLastChest)
+                {
+                    chestANIM.SetBool("openLast", true);
+                }
+                else
+                {
+                    chestANIM.SetBool("open", true);
+                }
+                KeyMissingText.SetActive(false);
+                isOpen = true;
+            }
+            else if (!keyOBJNeeded.activeInHierarchy)
+            {
+                StartCoroutine(Delay()); // To display the missing key text for a few seconds.
+            }
+        }
+        else 
         {
             Unlocked.Play();
             keyOBJNeeded.SetActive(false);
@@ -41,13 +75,16 @@ public class OpenChest : MonoBehaviour, IInteractable
             {
                 objInINV.SetActive(true);
             }
-            chestANIM.SetBool("open", true);
+            if (isLastChest)
+            {
+                chestANIM.SetBool("openLast", true);
+            }
+            else
+            {
+                chestANIM.SetBool("open", true);
+            }
             KeyMissingText.SetActive(false);
             isOpen = true;
-        }
-        else if (!keyOBJNeeded.activeInHierarchy)
-        {
-            StartCoroutine(Delay());
         }
 
         if (isOpen)
