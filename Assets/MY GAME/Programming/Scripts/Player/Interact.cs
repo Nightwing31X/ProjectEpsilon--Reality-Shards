@@ -53,11 +53,11 @@ namespace Player
                 }
                 // if our interaction button or key is pressed
             }
-            //else
-            //{
-            //    showToolTip = false;
-            //    PickUpText.SetActive(false); //# Pickup text turns off
-            //}
+            else
+            {
+                showToolTip = false;
+                PickUpText.SetActive(false); //# Pickup text turns off
+            }
         }
         void OnGUI()
         {

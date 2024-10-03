@@ -1,20 +1,39 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.EditorTools;
 using UnityEngine;
 
 public class RandomObjectSpawns : MonoBehaviour
 {
 
-    [SerializeField] private GameObject[] arrayOfObjs;
+    [SerializeField] private GameObject[] ObjsToAppear;
+    [Tooltip("How many objects do you want to appear")]
+    [SerializeField] private int numberOfObjectsToAppear;
+    [Tooltip("Will not run on start - Must run yourself using a trigger or anything else call FunctionRandomOBJS")]
+    [SerializeField] private bool _wait = false;
 
-    private IEnumerator HalfObjects(int numberOfObjects)
+    private void Start()
     {
-        yield return new WaitForSeconds(.5f);
+        Debug.Log("Last key is randomly spawned...");
+        if (!_wait)
+        {
+            StartCoroutine(HalfObjects(numberOfObjectsToAppear));
+        }
+    }
 
-        int totalObjects = arrayOfObjs.Length;
+    public void FunctionRandomOBJS()
+    {
+        StartCoroutine(HalfObjects(numberOfObjectsToAppear));
+    }
+
+    private IEnumerator HalfObjects(int numberOfObjectsToAppear)
+    {
+        yield return new WaitForSeconds(.01f);
+
+        int totalObjects = ObjsToAppear.Length;
         List<int> indicesAppear = new List<int>();
 
-        while (indicesAppear.Count < numberOfObjects)
+        while (indicesAppear.Count < numberOfObjectsToAppear)
         {
             int i = Random.Range(0, totalObjects);
 
@@ -22,7 +41,7 @@ public class RandomObjectSpawns : MonoBehaviour
             if (!indicesAppear.Contains(i))
             {
                 Debug.Log("Show Random...");
-                arrayOfObjs[i].SetActive(true);
+                ObjsToAppear[i].SetActive(true);
                 indicesAppear.Add(i);
             }
             yield return null;
@@ -33,7 +52,7 @@ public class RandomObjectSpawns : MonoBehaviour
         {
             if (!indicesAppear.Contains(i))
             {
-                arrayOfObjs[i].SetActive(false);
+                ObjsToAppear[i].SetActive(false);
             }
         }
     }

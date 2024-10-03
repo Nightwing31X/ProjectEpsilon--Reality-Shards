@@ -126,16 +126,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   chestANIM: {fileID: 5927367704111511996}
-  chestOBJ: {fileID: 0}
+  chestOBJ: {fileID: 5948167792100520061}
   keyOBJNeeded: {fileID: 0}
   objInINV: {fileID: 0}
   KeyMissingText: {fileID: 0}
   isOpen: 0
   isLastChest: 0
   noKeyNeeded: 0
-  insideOBJ: 0
+  insideOBJ: 1
   Unlocked: {fileID: 964358003096528637}
   Locked: {fileID: 6077265288622503244}
+  insideOBJSound: {fileID: 9136003620432977246}
 --- !u!95 &5927367704111511996
 Animator:
   serializedVersion: 5
@@ -356,11 +357,11 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5948167792100520061}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 79767fc1ce7b97c4a87a8176dfd772cf, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0

@@ -16,6 +16,7 @@ namespace Player
         [SerializeField] public Transform spawnPoint;
         [SerializeField] private float timerValue;
         [SerializeField] private float damageTimer;
+        [SerializeField] private float FireDamage = 15f;
         [SerializeField] private float environmentalDamagePerSeconds = 1.5f;
         [SerializeField] private bool canHeal = true;
         [SerializeField] private bool isHurt = false;
@@ -170,10 +171,13 @@ namespace Player
         }
         private void Update()
         {
-            HealthDamageImpact();
-            HealthOverTime();
-            Death();
-            Timer();
+            if (GameManager.instance.state == GameStates.Play)
+            {
+                HealthDamageImpact();
+                HealthOverTime();
+                Death();
+                Timer();
+            }
         }
         private void OnCollisionEnter(Collision collision)
         {
@@ -183,7 +187,7 @@ namespace Player
             }
             else if (collision.gameObject.tag == "FireDamage")
             {
-                DamagePlayer(15);
+                DamagePlayer(FireDamage);
             }
         }
         private void OnCollisionStay(Collision collision)

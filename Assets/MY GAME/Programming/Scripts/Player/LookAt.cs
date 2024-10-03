@@ -10,6 +10,9 @@ public class LookAt : MonoBehaviour
     [Tooltip("If used with the Prompts.cs it will use that 'SecondsOfReading'. If not using that script then please provide a number.")]
     public float SecsOfReading;
 
+    [SerializeField] private bool _haveCustomCamera;
+    [SerializeField] private Camera _CustomCamera;
+
     IEnumerator Delay()
     {
         yield return new WaitForSeconds(SecsOfReading);
@@ -18,9 +21,18 @@ public class LookAt : MonoBehaviour
 
     public void RotateToObject()
     {
-        Vector3 direction = lookAtOBJ.position - Camera.main.transform.position;
-        Quaternion rotationToOBJ = Quaternion.LookRotation(direction);
-        Camera.main.transform.rotation = Quaternion.Lerp(Camera.main.transform.rotation, rotationToOBJ, 2 * Time.deltaTime);
+        if (!_haveCustomCamera)
+        {
+            Vector3 direction = lookAtOBJ.position - Camera.main.transform.position;
+            Quaternion rotationToOBJ = Quaternion.LookRotation(direction);
+            Camera.main.transform.rotation = Quaternion.Lerp(Camera.main.transform.rotation, rotationToOBJ, 2 * Time.deltaTime);
+        }
+        else
+        {
+            Vector3 direction = lookAtOBJ.position - _CustomCamera.transform.position;
+            Quaternion rotationToOBJ = Quaternion.LookRotation(direction);
+            _CustomCamera.transform.rotation = Quaternion.Lerp(_CustomCamera.transform.rotation, rotationToOBJ, 2 * Time.deltaTime);
+        }
         StartCoroutine(Delay());
     }
 

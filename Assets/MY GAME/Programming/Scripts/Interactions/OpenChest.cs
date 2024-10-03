@@ -17,6 +17,7 @@ public class OpenChest : MonoBehaviour, IInteractable
 
     public AudioSource Unlocked;
     public AudioSource Locked;
+    public AudioSource insideOBJSound;
     // Start is called before the first frame update
     void Start()
     {
@@ -39,6 +40,12 @@ public class OpenChest : MonoBehaviour, IInteractable
         KeyMissingText.SetActive(false);
     }
 
+    IEnumerator KeySound()
+    {
+        yield return new WaitForSeconds(0.55f);
+        insideOBJSound.Play();
+    }
+
     public void openChest()
     {
         if (!noKeyNeeded)
@@ -49,6 +56,7 @@ public class OpenChest : MonoBehaviour, IInteractable
                 keyOBJNeeded.SetActive(false);
                 if (insideOBJ)
                 {
+                    StartCoroutine(KeySound());
                     objInINV.SetActive(true);
                 }
                 if (isLastChest)
@@ -70,7 +78,7 @@ public class OpenChest : MonoBehaviour, IInteractable
         else 
         {
             Unlocked.Play();
-            keyOBJNeeded.SetActive(false);
+            StartCoroutine(KeySound());
             if (insideOBJ)
             {
                 objInINV.SetActive(true);
@@ -98,6 +106,5 @@ public class OpenChest : MonoBehaviour, IInteractable
     public void Interact()
     {
         openChest();
-        Debug.Log("Opened Chest...");
     }
 }
