@@ -13,7 +13,8 @@ public class PauseGame : MonoBehaviour
     GameObject player;
 
     [SerializeField] bool PausedMenu = false;
-    [SerializeField] bool _inDialogue;
+    //[SerializeField] bool _inDialogue;
+    [SerializeField] bool _inCutscene;
 
 
 
@@ -41,8 +42,8 @@ public class PauseGame : MonoBehaviour
 
             // Cursor.lockState = CursorLockMode.None;
             // Cursor.visible = true;
-            _inDialogue = GameManager.instance.inDialogue;
-            if (_inDialogue)
+            _inCutscene = GameManager.instance.inCutscene;
+            if (_inCutscene)
             {
                 respawnPauseBTN.interactable = false; //? This leaves the button on the screen with the disabled color and the user can’t click it
                 //respawnPauseBTN.enabled = false; //? This leaves the button on the screen, the user can’t click it, but does NOT use the disabled color
@@ -66,8 +67,8 @@ public class PauseGame : MonoBehaviour
     private void CheckState()
     {
         GameManager.instance.inPause = false;
-        _inDialogue = GameManager.instance.inDialogue;
-        if (_inDialogue)
+        _inCutscene = GameManager.instance.inCutscene;
+        if (_inCutscene)
         {
             GameManager.instance.OnMenu();
         }

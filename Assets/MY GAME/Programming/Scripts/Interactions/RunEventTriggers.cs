@@ -9,18 +9,28 @@ public class RunEventTriggers : MonoBehaviour
     [SerializeField] private Animator _anim;
     [SerializeField] private bool _autoClose;
     [SerializeField] private bool _haveAnim = false;
+    //[SerializeField] private bool _customAnim = false;
     [SerializeField] private GameObject Room_Keep;
     [SerializeField] private GameObject Room_Hide;
 
     //[SerializeField] private bool _customPlay;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         if (_haveAnim)
         {
             _anim = GetComponentInParent<Animator>();
         }
+        //if (_customAnim)
+        //{
+        //    playCustomAnim();
+        //}
+    }
+
+    public void playCustomAnim()
+    {
+        _anim.SetBool("open", false);
     }
 
     private void OnTriggerExit(Collider other)

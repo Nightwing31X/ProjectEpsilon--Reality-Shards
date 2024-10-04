@@ -5,6 +5,7 @@ using UnityEngine;
 public class CutsceneEnter : MonoBehaviour
 {
     public GameObject thePlayer;
+    public GameObject HUD;
     public GameObject cutsceneCam;
     public bool oneTime = true;
     public bool inCutscene = false;
@@ -14,6 +15,7 @@ public class CutsceneEnter : MonoBehaviour
     void Awake()
     {
         cutsceneCam.SetActive(inCutscene);
+        HUD = GameObject.Find("HUD");
     }
     void OnTriggerEnter(Collider other)
     {
@@ -23,6 +25,7 @@ public class CutsceneEnter : MonoBehaviour
             this.gameObject.GetComponent<BoxCollider>().enabled = false;
         }
         cutsceneCam.SetActive(inCutscene);
+        HUD.SetActive(!inCutscene);
         thePlayer.SetActive(!inCutscene);
         StartCoroutine(FinishCutscene());
     }
@@ -33,6 +36,7 @@ public class CutsceneEnter : MonoBehaviour
         yield return new WaitForSeconds(cutsceneDuration);
         Debug.Log("Finished...");
         inCutscene = false;
+        HUD.SetActive(!inCutscene);
         thePlayer.SetActive(!inCutscene);
         cutsceneCam.SetActive(inCutscene);
     }

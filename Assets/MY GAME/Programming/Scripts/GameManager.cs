@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
     public GameStates state = GameStates.Play;
     public bool isPlayerDead = false;
     public bool inQuest = false;
+    public bool inCutscene = false;
     public bool inDialogue = false;
     public bool inPause = false;
 
