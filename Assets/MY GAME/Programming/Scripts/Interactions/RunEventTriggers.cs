@@ -9,11 +9,12 @@ public class RunEventTriggers : MonoBehaviour
     [SerializeField] private Animator _anim;
     [SerializeField] private bool _autoClose;
     [SerializeField] private bool _haveAnim = false;
+    [SerializeField] private bool _events = false;
     //[SerializeField] private bool _customAnim = false;
     [SerializeField] private GameObject Room_Keep;
     [SerializeField] private GameObject Room_Hide;
 
-    //[SerializeField] private bool _customPlay;
+    [SerializeField] private UnityEvent _customEvents;
 
     // Start is called before the first frame update
     void Awake()
@@ -57,9 +58,16 @@ public class RunEventTriggers : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            if (!_autoClose)
+            if (!_events)
             {
-                _anim.SetBool("play", true);
+                if (!_autoClose)
+                {
+                    _anim.SetBool("play", true);
+                }
+            }
+            else
+            {
+                _customEvents.Invoke();
             }
         }
     }

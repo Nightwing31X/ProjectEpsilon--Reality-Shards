@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Microsoft.Unity.VisualStudio.Editor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -13,8 +14,26 @@ public class GameManager : MonoBehaviour
     public bool inDialogue = false;
     public bool inPause = false;
 
+
+    //[SerializeField] private float gameOverStateDuration = 3f;
+    [SerializeField] private float timeToCredit = 3f;
+    [SerializeField] private float CreditDuration = 3f;
+    [SerializeField] private GameObject CreditContainer;
+    private int gameState = 0; // To be used so I know when the player has lost or won.
+
+
+
+
     private void Awake()
     {
+        if (CreditContainer == null)
+        {
+            Debug.LogWarning("NEED TO PUT IN THE CREDITCONTAINER MENU!!!");
+        }
+        else
+        {
+            CreditContainer.SetActive(false);
+        }
         if (instance == null)
         {
             instance = this;
@@ -49,9 +68,34 @@ public class GameManager : MonoBehaviour
         Cursor.visible = true;
         state = GameStates.Death;
     }
+
+    public void OnEndGame()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        state = GameStates.EndGame;
+    }
+
+    private IEnumerator GameWonSequence()
+    {
+        instance.OnEndGame();
+        yield return new WaitForSeconds(timeToCredit);
+        CreditContainer.SetActive(true);
+        yield return new WaitForSeconds(CreditDuration);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void TriggerWinState()
+    {
+        if (gameState == 0)
+        {
+            gameState = 1;
+            StartCoroutine(GameWonSequence());
+        }
+    }
 }
 
 public enum GameStates
 {
-    Play, Pause, Menu, Death
+    Play, Pause, Menu, Death, EndGame
 }
