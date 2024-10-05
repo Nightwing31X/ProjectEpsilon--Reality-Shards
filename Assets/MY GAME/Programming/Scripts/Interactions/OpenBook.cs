@@ -10,7 +10,7 @@ public class OpenBook : MonoBehaviour, IInteractable
     public Text textOBJ;
     [Tooltip("The text that will be displayed when the player interacts with the book.")]
     [SerializeField][TextArea] private string _readingContent;
-    public Animator bookAnim;
+    //public Animator bookAnim;
     public GameObject bookOBJ;
     [SerializeField] float _secondsOfDelay;
 
@@ -27,10 +27,10 @@ public class OpenBook : MonoBehaviour, IInteractable
     {
         _isReading = false;
         textContainer.SetActive(false);
-        if (bookAnim != null )
-        {
-            _deylayBeforeText = true;
-        }
+        // if (bookAnim != null )
+        // {
+        //     _deylayBeforeText = true;
+        // }
     }
 
     void openBook()
@@ -40,19 +40,20 @@ public class OpenBook : MonoBehaviour, IInteractable
         {
             GameManager.instance.OnMenu();
         }
-        if (bookAnim != null)
-        {
-            Debug.Log("I have a animation...Need to finish coding this section...");
-        }
+        // if (bookAnim != null)
+        // {
+        //     Debug.Log("I have a animation...Need to finish coding this section...");
+        // }
         else
         {
             textOBJ.text = string.Format(_readingContent);
             textContainer.SetActive(_isReading);
         }
-        if (bookAnim != null)
-        {
-            openedBook.Play();
-        }
+        openedBook.Play();
+        // if (bookAnim != null)
+        // {
+        //     openedBook.Play();
+        // }
         if (_fireOnce)
         {
             int LayerIgnoreRaycast = LayerMask.NameToLayer("Default");
@@ -63,19 +64,21 @@ public class OpenBook : MonoBehaviour, IInteractable
     public void nextPage()
     {
         Debug.Log("Right side button...");
-        if (bookAnim != null)
-        {
-            pageTurn.Play();
-        }
+        pageTurn.Play();
+        // if (bookAnim != null)
+        // {
+        //     pageTurn.Play();
+        // }
     }
 
     public void backPage()
     {
         Debug.Log("Left side button");
-        if (bookAnim != null)
-        {
-            pageTurn.Play();
-        }
+        pageTurn.Play();
+        // if (bookAnim != null)
+        // {
+        //     pageTurn.Play();
+        // }
     }
 
     public void exitBook()
@@ -83,10 +86,11 @@ public class OpenBook : MonoBehaviour, IInteractable
         Debug.Log("Close book button");
         _isReading = false;
         textContainer.SetActive(_isReading);
-        if (bookAnim != null)
-        {
-            closedBook.Play();
-        }
+        closedBook.Play();
+        // if (bookAnim != null)
+        // {
+        //     closedBook.Play();
+        // }
         if (GameManager.instance.state != GameStates.Play)
         {
             GameManager.instance.OnPlay();

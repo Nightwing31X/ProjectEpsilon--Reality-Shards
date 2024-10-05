@@ -76,21 +76,28 @@ public class GameManager : MonoBehaviour
         state = GameStates.EndGame;
     }
 
-    private IEnumerator GameWonSequence()
+    private IEnumerator GameWonSequence(bool restartLevel)
     {
         instance.OnEndGame();
         yield return new WaitForSeconds(timeToCredit);
         CreditContainer.SetActive(true);
         yield return new WaitForSeconds(CreditDuration);
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        if (restartLevel)
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
+        }
+        else
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
+        }
     }
 
-    public void TriggerWinState()
+    public void TriggerWinState(bool restartLevel)
     {
         if (gameState == 0)
         {
             gameState = 1;
-            StartCoroutine(GameWonSequence());
+            StartCoroutine(GameWonSequence(restartLevel));
         }
     }
 }
