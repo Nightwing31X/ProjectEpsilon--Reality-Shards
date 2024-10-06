@@ -12,10 +12,8 @@ public class OpenBook : MonoBehaviour, IInteractable
     [SerializeField][TextArea] private string _readingContent;
     //public Animator bookAnim;
     public GameObject bookOBJ;
-    [SerializeField] float _secondsOfDelay;
-
     [SerializeField] private bool _isReading = false;
-
+    [SerializeField] private bool _customText = false;
     [SerializeField] private bool _fireOnce = false;
 
     public AudioSource openedBook;
@@ -35,7 +33,7 @@ public class OpenBook : MonoBehaviour, IInteractable
         {
             GameManager.instance.OnMenu();
         }
-        else
+        if (!_customText)
         {
             textOBJ.text = string.Format(_readingContent);
             textContainer.SetActive(_isReading);

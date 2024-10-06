@@ -49,7 +49,10 @@ public class RunEventTriggers : MonoBehaviour
                 {
                     Room_Keep.SetActive(false);
                 }
-                _anim.SetBool("open", false);
+                if (_anim != null)
+                {
+                    _anim.SetBool("open", false);
+                }
             }
         }
     }
@@ -62,7 +65,10 @@ public class RunEventTriggers : MonoBehaviour
             {
                 if (!_autoClose)
                 {
-                    _anim.SetBool("play", true);
+                    if (_anim != null)
+                    {
+                        _anim.SetBool("play", true);
+                    }
                 }
             }
             else
