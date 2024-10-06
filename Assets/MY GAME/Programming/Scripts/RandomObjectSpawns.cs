@@ -14,7 +14,8 @@ public class RandomObjectSpawns : MonoBehaviour
 
     private void Start()
     {
-        Debug.Log("Last key is randomly spawned...");
+        //Debug.Log("Last key is randomly spawned...");
+        //Debug.Log(this.gameObject.name);
         if (!_wait)
         {
             StartCoroutine(HalfObjects(numberOfObjectsToAppear));
@@ -40,7 +41,8 @@ public class RandomObjectSpawns : MonoBehaviour
             // Ensure the object at index i hasn't been deactivated already
             if (!indicesAppear.Contains(i))
             {
-                Debug.Log("Show Random...");
+                //Debug.Log("Show Random...");
+                //Debug.Log(this.gameObject.name);
                 ObjsToAppear[i].SetActive(true);
                 indicesAppear.Add(i);
             }

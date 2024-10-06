@@ -17,7 +17,6 @@ public class OpenBook : MonoBehaviour, IInteractable
     [SerializeField] private bool _isReading = false;
 
     [SerializeField] private bool _fireOnce = false;
-    [SerializeField] private bool _deylayBeforeText = false;
 
     public AudioSource openedBook;
     public AudioSource closedBook;
@@ -27,10 +26,6 @@ public class OpenBook : MonoBehaviour, IInteractable
     {
         _isReading = false;
         textContainer.SetActive(false);
-        // if (bookAnim != null )
-        // {
-        //     _deylayBeforeText = true;
-        // }
     }
 
     void openBook()
@@ -40,20 +35,12 @@ public class OpenBook : MonoBehaviour, IInteractable
         {
             GameManager.instance.OnMenu();
         }
-        // if (bookAnim != null)
-        // {
-        //     Debug.Log("I have a animation...Need to finish coding this section...");
-        // }
         else
         {
             textOBJ.text = string.Format(_readingContent);
             textContainer.SetActive(_isReading);
         }
         openedBook.Play();
-        // if (bookAnim != null)
-        // {
-        //     openedBook.Play();
-        // }
         if (_fireOnce)
         {
             int LayerIgnoreRaycast = LayerMask.NameToLayer("Default");
@@ -65,20 +52,12 @@ public class OpenBook : MonoBehaviour, IInteractable
     {
         Debug.Log("Right side button...");
         pageTurn.Play();
-        // if (bookAnim != null)
-        // {
-        //     pageTurn.Play();
-        // }
     }
 
     public void backPage()
     {
         Debug.Log("Left side button");
         pageTurn.Play();
-        // if (bookAnim != null)
-        // {
-        //     pageTurn.Play();
-        // }
     }
 
     public void exitBook()
@@ -87,30 +66,14 @@ public class OpenBook : MonoBehaviour, IInteractable
         _isReading = false;
         textContainer.SetActive(_isReading);
         closedBook.Play();
-        // if (bookAnim != null)
-        // {
-        //     closedBook.Play();
-        // }
         if (GameManager.instance.state != GameStates.Play)
         {
             GameManager.instance.OnPlay();
         }
     }
 
-    private IEnumerator DelayOpenBook()
-    {
-        yield return new WaitForSeconds(_secondsOfDelay);
-    }
-
     public void Interact()
     {
-        if (_deylayBeforeText)
-        {
-            StartCoroutine(DelayOpenBook());
-        }
-        else
-        {
-            openBook();
-        }
+        openBook();
     }
 }
