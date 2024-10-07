@@ -8,6 +8,7 @@ public class OpenBook : MonoBehaviour, IInteractable
 {
     public GameObject textContainer;
     public Text textOBJ;
+    public GameObject customTextContainer;
     [Tooltip("The text that will be displayed when the player interacts with the book.")]
     [SerializeField][TextArea] private string _readingContent;
     //public Animator bookAnim;
@@ -24,6 +25,11 @@ public class OpenBook : MonoBehaviour, IInteractable
     {
         _isReading = false;
         textContainer.SetActive(false);
+        if (!_customText)
+        {
+            textOBJ.enabled = false;
+            customTextContainer.SetActive(false);
+        }
     }
 
     void openBook()
@@ -35,9 +41,19 @@ public class OpenBook : MonoBehaviour, IInteractable
         }
         if (!_customText)
         {
+            customTextContainer.SetActive(false);
+            textOBJ.enabled = true;
             textOBJ.text = string.Format(_readingContent);
-            textContainer.SetActive(_isReading);
         }
+        else
+        {
+            if (textOBJ != null)
+            {
+                textOBJ.enabled = false;
+            }
+            customTextContainer.SetActive(true);
+        }
+        textContainer.SetActive(_isReading);
         openedBook.Play();
         if (_fireOnce)
         {
