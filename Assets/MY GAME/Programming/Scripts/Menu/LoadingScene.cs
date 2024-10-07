@@ -17,7 +17,8 @@ public class LoadingScene : MonoBehaviour
         {
             float progress = Mathf.Clamp01(operation.progress/0.9f);
             progressBar.fillAmount = progress;
-            progressText.text = $"{progress*100:P0}";
+            // progressText.text = $"{progress*100:P0}";
+            progressText.text = $"{progress:P0}";
             yield return null;
         }
     }

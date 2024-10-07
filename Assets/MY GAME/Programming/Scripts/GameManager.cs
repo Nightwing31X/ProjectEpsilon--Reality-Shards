@@ -84,7 +84,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(CreditDuration);
         if (restartLevel)
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
         else
         {
@@ -99,6 +99,11 @@ public class GameManager : MonoBehaviour
             gameState = 1;
             StartCoroutine(GameWonSequence(restartLevel));
         }
+    }
+
+    public void TriggerNextLevelState()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 }
 
