@@ -10,6 +10,7 @@ public class RunEventTriggers : MonoBehaviour
     [SerializeField] private bool _autoClose;
     [SerializeField] private bool _haveAnim = false;
     [SerializeField] private bool _events = false;
+    [SerializeField] private bool _waitForEvent = false;
     //[SerializeField] private bool _customAnim = false;
     [SerializeField] private GameObject Room_Keep;
     [SerializeField] private GameObject Room_Hide;
@@ -23,10 +24,6 @@ public class RunEventTriggers : MonoBehaviour
         {
             _anim = GetComponentInParent<Animator>();
         }
-        //if (_customAnim)
-        //{
-        //    playCustomAnim();
-        //}
     }
 
     public void playCustomAnim()
@@ -41,6 +38,13 @@ public class RunEventTriggers : MonoBehaviour
             //Debug.Log("Left the box");
             if (_autoClose)
             {
+                if (_waitForEvent)
+                {
+                    Debug.Log("Should run task...");
+                    _customEvents.Invoke();
+                    Debug.Log("Task ran???");
+                }
+
                 if (Room_Keep.activeSelf)
                 {
                     Room_Hide.SetActive(false);
@@ -48,10 +52,6 @@ public class RunEventTriggers : MonoBehaviour
                 else if (Room_Hide.activeSelf)
                 {
                     Room_Keep.SetActive(false);
-                }
-                if (_anim != null)
-                {
-                    _anim.SetBool("open", false);
                 }
             }
         }
@@ -61,19 +61,22 @@ public class RunEventTriggers : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            if (!_events)
+            if (!_waitForEvent)
             {
-                if (!_autoClose)
+                if (!_events)
                 {
-                    if (_anim != null)
+                    if (!_autoClose)
                     {
-                        _anim.SetBool("play", true);
+                        if (_anim != null)
+                        {
+                            _anim.SetBool("play", true);
+                        }
                     }
                 }
-            }
-            else
-            {
-                _customEvents.Invoke();
+                else
+                {
+                    _customEvents.Invoke();
+                }
             }
         }
     }
@@ -90,9 +93,5 @@ public class RunEventTriggers : MonoBehaviour
                 Room_Keep.SetActive(true);
             }
         }
-        // if (_customPlay)
-        // {
-        //     _anim.SetBool("play", false);
-        // }
     }
 }

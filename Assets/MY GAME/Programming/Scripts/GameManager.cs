@@ -11,14 +11,15 @@ public class GameManager : MonoBehaviour
     public bool inQuest = false;
     public bool inCutscene = false;
     public bool inDialogue = false;
+    public bool inDialoguePlace = false;
     public bool inPause = false;
+    public string currentGameState;
 
 
     //[SerializeField] private float gameOverStateDuration = 3f;
     [SerializeField] private float timeToCredit = 3f;
     [SerializeField] private float CreditDuration = 3f;
     [SerializeField] private GameObject CreditContainer;
-    private int gameState = 0; // To be used so I know when the player has lost or won.
 
 
 
@@ -48,24 +49,28 @@ public class GameManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         state = GameStates.Play;
+        currentGameState = "Play";
     }
     public void OnPause()
     {
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         state = GameStates.Pause;
+        currentGameState = "Pause";
     }
     public void OnMenu()
     {
         Cursor.lockState = CursorLockMode.Confined;
         Cursor.visible = true;
         state = GameStates.Menu;
+        currentGameState = "Menu";
     }
     public void OnDeath()
     {
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         state = GameStates.Death;
+        currentGameState = "Death";
     }
 
     public void OnEndGame()
@@ -73,6 +78,7 @@ public class GameManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         state = GameStates.EndGame;
+        currentGameState = "EndGame";
     }
 
     private IEnumerator GameWonSequence(bool restartLevel)
@@ -93,11 +99,7 @@ public class GameManager : MonoBehaviour
 
     public void TriggerWinState(bool restartLevel)
     {
-        if (gameState == 0)
-        {
-            gameState = 1;
-            StartCoroutine(GameWonSequence(restartLevel));
-        }
+        StartCoroutine(GameWonSequence(restartLevel));
     }
 
     public void TriggerNextLevelState()

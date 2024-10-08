@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
@@ -69,7 +68,6 @@ public class Prompts : MonoBehaviour
             textOn = true;
             StartCoroutine(ShowPromptText());
         }
-
         if (_stayInPlace)
         {
             if (GameManager.instance.state != GameStates.Menu)
@@ -92,10 +90,6 @@ public class Prompts : MonoBehaviour
         SubTxt.text = string.Format(_textContent);
         yield return new WaitForSeconds(SecondsOfReading);
         HideTextPrompt();
-        if (GameManager.instance.state != GameStates.Play)
-        {
-            GameManager.instance.OnPlay();
-        }
         _inDialogue = false;
         GameManager.instance.inDialogue = _inDialogue;
     }

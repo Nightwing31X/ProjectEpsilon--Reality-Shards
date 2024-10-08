@@ -1012,8 +1012,8 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1829654589}
-  - {fileID: 237496123}
   - {fileID: 1715107473}
+  - {fileID: 237496123}
   - {fileID: 1477098134}
   - {fileID: 1551565991}
   - {fileID: 1279877078}
@@ -1270,7 +1270,6 @@ GameObject:
   m_Component:
   - component: {fileID: 131957796}
   - component: {fileID: 131957795}
-  - component: {fileID: 131957797}
   - component: {fileID: 131957793}
   - component: {fileID: 131957798}
   m_Layer: 0
@@ -1314,7 +1313,9 @@ MonoBehaviour:
   inQuest: 0
   inCutscene: 0
   inDialogue: 0
+  inDialoguePlace: 0
   inPause: 0
+  currentGameState: 
   timeToCredit: 3
   CreditDuration: 3
   CreditContainer: {fileID: 1990354808}
@@ -1333,33 +1334,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &131957797
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 131957792}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1acf20183feb6c84ca91a6cea96cbd83, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _dialogueBox: {fileID: 237496122}
-  _dialogueText: {fileID: 1804555264}
-  _buttonsObject: {fileID: 335895142}
-  dialogueLines: []
-  currentIndex: 0
-  questionIndex: -1
-  leaveIndex: -1
-  _inDialogue: 0
-  _inCutscene: 0
-  _inChoice: 0
-  _approvalDialogueLines:
-    dislikeLines: []
-    neutralLines: []
-    likedLines: []
-  _currentApproval: {fileID: 0}
 --- !u!114 &131957798
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1554,7 +1528,6 @@ GameObject:
   - component: {fileID: 165287386}
   - component: {fileID: 165287389}
   - component: {fileID: 165287391}
-  - component: {fileID: 165287390}
   m_Layer: 0
   m_Name: Camera
   m_TagString: Untagged
@@ -1701,27 +1674,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &165287390
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 165287384}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6bd3a3a85e397bd4897b5d171cd94cc2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _anim: {fileID: 0}
-  _autoClose: 0
-  _haveAnim: 0
-  _events: 0
-  Room_Keep: {fileID: 0}
-  Room_Hide: {fileID: 0}
-  _customEvents:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &165287391
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1926,7 +1878,7 @@ MonoBehaviour:
   SubTxt: {fileID: 1804555264}
   SecondsOfReading: 6
   SecondsOfDelay: 0
-  _textContent: Okay I can do it this!
+  _textContent: Okay I can do it! I'll go read the book first again though.
   _inDialogue: 0
   _removeTrigger: 1
   _delayBeforeText: 0
@@ -3436,10 +3388,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1716685094}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 0.6, y: 0.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &314389188
 MonoBehaviour:
@@ -3461,7 +3413,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10915, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 21300000, guid: 1ccb4312519618f4bb6c553b73f5f96c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -3655,7 +3607,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &335895143
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5602,7 +5554,7 @@ MonoBehaviour:
           m_BoolArgument: 1
         m_CallState: 2
   openedBook: {fileID: 727353720}
-  closedBook: {fileID: 727353719}
+  closedBook: {fileID: 727353720}
   pageTurn: {fileID: 727353718}
 --- !u!82 &727353718
 AudioSource:
@@ -5614,104 +5566,8 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 4885096299500301755, guid: 1081091dd77bbd84482ed6a2c87b912f, type: 2}
-  m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
-  m_Volume: 1
-  m_Pitch: 1
-  Loop: 0
-  Mute: 0
-  Spatialize: 0
-  SpatializePostEffects: 0
-  Priority: 128
-  DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
-  Pan2D: 0
-  rolloffMode: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
-  rolloffCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  panLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  spreadCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  reverbZoneMixCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
---- !u!82 &727353719
-AudioSource:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 727353716}
-  m_Enabled: 1
-  serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 4885096299500301755, guid: 1081091dd77bbd84482ed6a2c87b912f, type: 2}
-  m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_audioClip: {fileID: 8300000, guid: d3d76bd1e73608e4a862a09dca0c2a8f, type: 3}
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -5806,8 +5662,8 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 4885096299500301755, guid: 1081091dd77bbd84482ed6a2c87b912f, type: 2}
-  m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_audioClip: {fileID: 8300000, guid: 0a5739c1396db674dbf8cfdadb5a2353, type: 3}
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -10362,7 +10218,7 @@ GameObject:
   - component: {fileID: 1688018502}
   - component: {fileID: 1688018501}
   m_Layer: 0
-  m_Name: ALL_LAST_KEYS
+  m_Name: OPEN _TO_NEXT_LEVEL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10400,7 +10256,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TextOBJ: {fileID: 237496122}
   SubTxt: {fileID: 1804555264}
-  SecondsOfReading: 5
+  SecondsOfReading: 7
   SecondsOfDelay: 2
   _textContent: Alright, I know the rules! I can do this come on!
   _inDialogue: 0
@@ -10424,7 +10280,7 @@ MonoBehaviour:
   cutsceneCam: {fileID: 165287384}
   oneTime: 1
   inCutscene: 0
-  cutsceneDuration: 3
+  cutsceneDuration: 5
 --- !u!65 &1688018504
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10584,6 +10440,7 @@ GameObject:
   - component: {fileID: 1716685097}
   - component: {fileID: 1716685096}
   - component: {fileID: 1716685095}
+  - component: {fileID: 1716685099}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -10598,17 +10455,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1716685093}
-  m_LocalRotation: {x: -0, y: -0.24603453, z: -0, w: 0.96926105}
-  m_LocalPosition: {x: 0, y: 0, z: 0.978}
+  m_LocalRotation: {x: 0, y: -0.258819, z: 0, w: 0.9659259}
+  m_LocalPosition: {x: 0, y: 0, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 314389187}
   m_Father: {fileID: 2001163582}
-  m_LocalEulerAnglesHint: {x: 0, y: -28.486, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -30, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -4.417, y: 1.57}
+  m_AnchoredPosition: {x: -4.5, y: 1.4}
   m_SizeDelta: {x: 1, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1716685095
@@ -10690,6 +10547,27 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!95 &1716685099
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1716685093}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: db1e1c1853b31d949b041cb8c54c937b, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1719079386
 GameObject:
   m_ObjectHideFlags: 0
@@ -11925,9 +11803,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4957231571477918332, guid: 92d4430c1aabefa4691079bac409cbf9, type: 3}
       insertIndex: -1
       addedObject: {fileID: 727353720}
-    - targetCorrespondingSourceObject: {fileID: 4957231571477918332, guid: 92d4430c1aabefa4691079bac409cbf9, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 727353719}
     - targetCorrespondingSourceObject: {fileID: 4957231571477918332, guid: 92d4430c1aabefa4691079bac409cbf9, type: 3}
       insertIndex: -1
       addedObject: {fileID: 727353718}

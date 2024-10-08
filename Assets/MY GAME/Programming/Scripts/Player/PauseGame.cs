@@ -85,7 +85,6 @@ public class PauseGame : MonoBehaviour
         PausedMenu = false;
         MenuPaused.SetActive(PausedMenu);
         PlayerHUD.SetActive(true);
-
     }
 
     public void Respawn()
