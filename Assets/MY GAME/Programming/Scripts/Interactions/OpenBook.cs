@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Rendering;
 using UnityEngine.UI;
 
@@ -16,6 +17,8 @@ public class OpenBook : MonoBehaviour, IInteractable
     [SerializeField] private bool _isReading = false;
     [SerializeField] private bool _customText = false;
     [SerializeField] private bool _fireOnce = false;
+    [SerializeField] private bool _events = false;
+    [SerializeField] private UnityEvent _customEvents;
 
     public AudioSource openedBook;
     public AudioSource closedBook;
@@ -83,6 +86,10 @@ public class OpenBook : MonoBehaviour, IInteractable
         if (GameManager.instance.state != GameStates.Play)
         {
             GameManager.instance.OnPlay();
+        }
+        if (_events)
+        {
+            _customEvents.Invoke();
         }
     }
 

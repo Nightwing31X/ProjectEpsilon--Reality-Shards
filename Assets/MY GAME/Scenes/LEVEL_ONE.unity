@@ -22967,6 +22967,10 @@ MonoBehaviour:
   _isReading: 0
   _customText: 1
   _fireOnce: 0
+  _events: 0
+  _customEvents:
+    m_PersistentCalls:
+      m_Calls: []
   openedBook: {fileID: 598126835}
   closedBook: {fileID: 598126834}
   pageTurn: {fileID: 598126833}
@@ -54191,7 +54195,7 @@ GameObject:
   - component: {fileID: 1408334384}
   - component: {fileID: 1408334383}
   m_Layer: 0
-  m_Name: Camera
+  m_Name: Camera2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -54222,7 +54226,7 @@ Animator:
   m_GameObject: {fileID: 1408334381}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 3cdf6295f6917c849b3e41f508ae0379, type: 2}
+  m_Controller: {fileID: 9100000, guid: 1ff2c55b634a01b45a3e40ce0f20ff9b, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -68266,7 +68270,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   thePlayer: {fileID: 1121003905}
-  HUD: {fileID: 0}
+  HUD: {fileID: 755171171}
   cutsceneCam: {fileID: 1011628831}
   oneTime: 1
   inCutscene: 0
