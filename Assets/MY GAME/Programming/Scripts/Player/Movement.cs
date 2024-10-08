@@ -1,3 +1,4 @@
+using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -34,7 +35,7 @@ namespace Player
         [SerializeField] private AudioSource _AudioSourceREF;
 
         //[SerializeField] bool isPlayerDead;
-
+        Vector2 newInput;
 
 
         #endregion
@@ -179,8 +180,18 @@ namespace Player
                     // Check if we are on the ground so we can move coz that's how people work
                     if (_characterController.isGrounded)
                     {
-                        // What is our direction? Set the move direction based off inputs
-                        _moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+                        if (KeyBindManager.Keys.Count <= 0)
+                        {
+                            // What is our direction? Set the move direction based off inputs
+                            _moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+                        }
+                        else
+                        {
+                            newInput.x = Input.GetKey(KeyBindManager.Keys["Left"]) ? -1 : newInput.x = Input.GetKey(KeyBindManager.Keys["Right"]) ? 1 : 0;
+                            newInput.y = Input.GetKey(KeyBindManager.Keys["Forwards"]) ? 1 : newInput.y = Input.GetKey(KeyBindManager.Keys["Backwards"]) ? -1 : 0;
+                            _movementSpeed = Input.GetKey(KeyBindManager.Keys["Sprint"]) ? _run : _movementSpeed = Input.GetKey(KeyBindManager.Keys["Crouch"]) ? _crouch : _walk;
+                            _moveDirection = new Vector3(newInput.x, 0, newInput.y);
+                        }
                         // Make sure that the direction forward is according to the player's forward and not the world North
                         _moveDirection = transform.TransformDirection(_moveDirection);
                         // Apply speed to the movement direction 
@@ -188,15 +199,30 @@ namespace Player
 
                         //_moveDirection = transform.TransformDirection(new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical")) * _movementSpeed);
 
-                        // If we jump
-                        if (Input.GetButton("Jump"))
+                            // If we jump
+                        if (KeyBindManager.Keys.Count <= 0)
                         {
-                            // Move up
-                            _moveDirection.y = _jump;
-                            if (_AudioSourceREF != null && _jumpClips.Length > 0)
+                            if (Input.GetButton("Jump"))
                             {
-                                //Debug.Log("Jumped...");
-                                _AudioSourceREF.PlayOneShot(_jumpClips[Random.Range(0, _jumpClips.Length)]);
+                                // Move up
+                                _moveDirection.y = _jump;
+                                if (_AudioSourceREF != null && _jumpClips.Length > 0)
+                                {
+                                    //Debug.Log("Jumped...");
+                                    _AudioSourceREF.PlayOneShot(_jumpClips[Random.Range(0, _jumpClips.Length)]);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            if (Input.GetKey(KeyBindManager.Keys["Jump"]))
+                            {
+                                _moveDirection.y = _jump;
+                                if (_AudioSourceREF != null && _jumpClips.Length > 0)
+                                {
+                                    //Debug.Log("Jumped...");
+                                    _AudioSourceREF.PlayOneShot(_jumpClips[Random.Range(0, _jumpClips.Length)]);
+                                }
                             }
                         }
                     }

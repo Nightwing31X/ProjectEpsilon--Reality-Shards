@@ -37,12 +37,25 @@ namespace Player
                 {
                     //Debug.Log("Hit the right thing...");
                     showToolTip = true;
-                    OnGUI();
-                    if (Input.GetButtonDown("Interaction"))
+                    if (KeyBindManager.Keys.Count <= 0)
                     {
-                        if (hitInfo.collider.TryGetComponent(out IInteractable interactableObject))
+                        OnGUI();
+                        if (Input.GetButtonDown("Interaction"))
                         {
-                            interactableObject.Interact();
+                            if (hitInfo.collider.TryGetComponent(out IInteractable interactableObject))
+                            {
+                                interactableObject.Interact();
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (Input.GetKey(KeyBindManager.Keys["Interact"]))
+                        {
+                            if (hitInfo.collider.TryGetComponent(out IInteractable interactableObject))
+                            {
+                                interactableObject.Interact();
+                            }
                         }
                     }
                 }

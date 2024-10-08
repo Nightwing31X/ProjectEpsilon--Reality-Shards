@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000000, guid: 34ef802cf4bc5e04098aa3694ef2d836, type: 2}
   m_LightingSettings: {fileID: 0}
 --- !u!196 &4
 NavMeshSettings:
@@ -6294,7 +6294,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   actionSetUp:
-  - actionName: Fowards
+  - actionName: Forwards
     keyDisplay: {fileID: 606789743}
     defaultKey: W
   - actionName: Left
@@ -6349,7 +6349,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   loadingScenePanel: {fileID: 571375138}
   progressBar: {fileID: 1585185562}
-  progressText: {fileID: 1044326977}
+  progressText: {fileID: 679646452}
 --- !u!114 &1295868703
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6448,7 +6448,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Monster Energy
+  m_Text: Title of Game
 --- !u!222 &1296918190
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6937,7 +6937,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: MusicVolume
+          m_StringArgument: MusicandEnvironmentalVolume
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 517351608}
