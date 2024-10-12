@@ -2,10 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Quality : MonoBehaviour
+namespace Menu
 {
-    public void ChangeQualiy(int Quality)
+    [AddComponentMenu("GameDev/Menu/Quality")]
+    public class Quality : MonoBehaviour
     {
-        QualitySettings.SetQualityLevel(Quality);
+        public void ChangeQualiy(int Quality)
+        {
+            QualitySettings.SetQualityLevel(Quality);
+        }
     }
 }

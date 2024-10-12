@@ -4,31 +4,36 @@ using System.Collections.Generic;
 using UnityEditor.Experimental;
 using UnityEngine;
 
-public class portalFake : MonoBehaviour
+
+namespace GameDev
 {
-    [SerializeField] private GameObject portal;
-    [SerializeField] bool portalActive;
-
-    void Awake()
+    [AddComponentMenu("GameDev/Portal Fake")]
+    public class portalFake : MonoBehaviour
     {
-        portal.SetActive(portalActive);
-    }
+        [SerializeField] private GameObject portal;
+        [SerializeField] bool portalActive;
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.tag == "Player")
+        void Awake()
         {
-            portalActive = false;
             portal.SetActive(portalActive);
         }
-    }
 
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.tag == "Player")
+        private void OnTriggerEnter(Collider other)
         {
-            portalActive = true;
-            portal.SetActive(portalActive);
+            if (other.tag == "Player")
+            {
+                portalActive = false;
+                portal.SetActive(portalActive);
+            }
+        }
+
+        private void OnTriggerExit(Collider other)
+        {
+            if (other.tag == "Player")
+            {
+                portalActive = true;
+                portal.SetActive(portalActive);
+            }
         }
     }
 }

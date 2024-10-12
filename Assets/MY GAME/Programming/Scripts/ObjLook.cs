@@ -1,48 +1,53 @@
 using UnityEngine;
 
-public class ObjLook : MonoBehaviour {
-    [SerializeField] private BillboardType billboardType;
-
-    [Header("Lock Rotation")]
-    [SerializeField] private bool lockX;
-    [SerializeField] private bool lockY;
-    [SerializeField] private bool lockZ;
-
-    private Vector3 originalRotation;
-    public enum BillboardType { LookAtCamera, CameraForward };
-
-
-    private void Awake()
+namespace GameDev
+{
+    [AddComponentMenu("GameDev/Obj Look")]
+    public class ObjLook : MonoBehaviour
     {
-        originalRotation = transform.rotation.eulerAngles;
-    }
+        [SerializeField] private BillboardType billboardType;
 
-    // Use Lateupdate so everything should have finished moving.
-    void LateUpdate ()
-    {
-        // There are two ways people billboard things
-        switch (billboardType)
+        [Header("Lock Rotation")]
+        [SerializeField] private bool lockX;
+        [SerializeField] private bool lockY;
+        [SerializeField] private bool lockZ;
+
+        private Vector3 originalRotation;
+        public enum BillboardType { LookAtCamera, CameraForward };
+
+
+        private void Awake()
         {
-            case BillboardType.LookAtCamera:
-                if (Camera.main != null)
-                {
-                    transform.LookAt(Camera.main.transform.position, Vector3.up);
-                }
-                break;
-            case BillboardType.CameraForward:
-                if (Camera.main != null)
-                {
-                    transform.forward = Camera.main.transform.forward;
-                }   
-                break;
-            default:
-                break;
+            originalRotation = transform.rotation.eulerAngles;
         }
-        // Modify the rotation in Euler space to lock certain dimensionns.
-        Vector3 rotation = transform.rotation.eulerAngles;
-        if (lockX) { rotation.x = originalRotation.x;}
-        if (lockY) { rotation.y = originalRotation.y;}
-        if (lockZ) { rotation.z = originalRotation.z;}
-        transform.rotation = Quaternion.Euler(rotation);
+
+        // Use Lateupdate so everything should have finished moving.
+        void LateUpdate()
+        {
+            // There are two ways people billboard things
+            switch (billboardType)
+            {
+                case BillboardType.LookAtCamera:
+                    if (Camera.main != null)
+                    {
+                        transform.LookAt(Camera.main.transform.position, Vector3.up);
+                    }
+                    break;
+                case BillboardType.CameraForward:
+                    if (Camera.main != null)
+                    {
+                        transform.forward = Camera.main.transform.forward;
+                    }
+                    break;
+                default:
+                    break;
+            }
+            // Modify the rotation in Euler space to lock certain dimensionns.
+            Vector3 rotation = transform.rotation.eulerAngles;
+            if (lockX) { rotation.x = originalRotation.x; }
+            if (lockY) { rotation.y = originalRotation.y; }
+            if (lockZ) { rotation.z = originalRotation.z; }
+            transform.rotation = Quaternion.Euler(rotation);
+        }
     }
 }

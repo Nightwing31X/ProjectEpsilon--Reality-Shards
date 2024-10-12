@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Reflection.Emit;
+using Menu;
 using UnityEngine;
 
 namespace Player
 {
+    [AddComponentMenu("GameDev/Player/First Person Interact")]
     public class Interact : MonoBehaviour
     {
         //public GUIStyle crossHair, tooltip;
@@ -12,7 +14,7 @@ namespace Player
         [Tooltip("Toggle on to print console messages from this component.")]
         [SerializeField] private bool debug;
         // [Tooltip("The distance that the player can reach interactions.")]
-        [Tooltip("The distance that the player can reach interactions."), SerializeField, Range(0,100)] private float distance = 10f;
+        [Tooltip("The distance that the player can reach interactions."), SerializeField, Range(0, 100)] private float distance = 10f;
         public bool showToolTip = false;
         //public string action, button, instruction;
         public bool pickUpObj;

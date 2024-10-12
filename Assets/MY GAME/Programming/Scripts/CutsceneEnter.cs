@@ -2,42 +2,47 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CutsceneEnter : MonoBehaviour
+
+namespace GameDev
 {
-    public GameObject thePlayer;
-    public GameObject HUD;
-    public GameObject cutsceneCam;
-    public bool oneTime = true;
-    public bool inCutscene = false;
-    public float cutsceneDuration;
+    [AddComponentMenu("GameDev/Cutscene Enter")]
+    public class CutsceneEnter : MonoBehaviour
+    {
+        public GameObject thePlayer;
+        public GameObject HUD;
+        public GameObject cutsceneCam;
+        public bool oneTime = true;
+        public bool inCutscene = false;
+        public float cutsceneDuration;
 
 
-    void Awake()
-    {
-        cutsceneCam.SetActive(inCutscene);
-        HUD = GameObject.Find("HUD");
-    }
-    void OnTriggerEnter(Collider other)
-    {
-        inCutscene = true;
-        if (oneTime)
+        void Awake()
         {
-            this.gameObject.GetComponent<BoxCollider>().enabled = false;
+            cutsceneCam.SetActive(inCutscene);
+            HUD = GameObject.Find("HUD");
         }
-        cutsceneCam.SetActive(inCutscene);
-        HUD.SetActive(!inCutscene);
-        thePlayer.SetActive(!inCutscene);
-        StartCoroutine(FinishCutscene());
-    }
+        void OnTriggerEnter(Collider other)
+        {
+            inCutscene = true;
+            if (oneTime)
+            {
+                this.gameObject.GetComponent<BoxCollider>().enabled = false;
+            }
+            cutsceneCam.SetActive(inCutscene);
+            HUD.SetActive(!inCutscene);
+            thePlayer.SetActive(!inCutscene);
+            StartCoroutine(FinishCutscene());
+        }
 
-    IEnumerator FinishCutscene()
-    {
-        Debug.Log("Waiting...");
-        yield return new WaitForSeconds(cutsceneDuration);
-        Debug.Log("Finished...");
-        inCutscene = false;
-        HUD.SetActive(!inCutscene);
-        thePlayer.SetActive(!inCutscene);
-        cutsceneCam.SetActive(inCutscene);
+        IEnumerator FinishCutscene()
+        {
+            Debug.Log("Waiting...");
+            yield return new WaitForSeconds(cutsceneDuration);
+            Debug.Log("Finished...");
+            inCutscene = false;
+            HUD.SetActive(!inCutscene);
+            thePlayer.SetActive(!inCutscene);
+            cutsceneCam.SetActive(inCutscene);
+        }
     }
 }

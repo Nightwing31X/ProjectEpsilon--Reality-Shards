@@ -2,10 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TestInteractions : MonoBehaviour, IInteractable
+namespace Interactions
 {
-    public void Interact()
+    [AddComponentMenu("GameDev/Interactions/Test Interaction Function")]
+    public class TestInteractions : MonoBehaviour, IInteractable
     {
-        Debug.Log("Test Interaction has worked...");
+        public void Interact()
+        {
+            Debug.Log("Test Interaction has worked...");
+        }
     }
 }
