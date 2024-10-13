@@ -5064,8 +5064,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: OpenBook, Assembly-CSharp
+      - m_Target: {fileID: 727353717}
+        m_TargetAssemblyTypeName: Interactions.OpenBook, Assembly-CSharp
         m_MethodName: exitBook
         m_Mode: 1
         m_Arguments:
@@ -5696,9 +5696,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fcf9d9f3151e1024ea1fa024f4729609, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textContainer: {fileID: 0}
-  textOBJ: {fileID: 0}
-  customTextContainer: {fileID: 0}
+  textContainer: {fileID: 610028477}
+  textOBJ: {fileID: 1051145723}
+  customTextContainer: {fileID: 1478899898}
   _readingContent: THIS SHOULD NOT APPEAR
   bookOBJ: {fileID: 727353716}
   _isReading: 0
@@ -7002,11 +7002,12 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla consectetur
-    velit vitae risus dictum eleifend. Nullam id iaculis neque. Suspendisse dui mi,
-    mollis at tristique in, tincidunt at magna. Nullam a ultricies diam. Donec luctus
-    sed nunc nec luctus. Vestibulum nec varius odio. Cras dictum nibh vel suscipit
-    bibendum.
+  m_Text: "The entity is still after me! I must figure what has broke the timeline
+    and fix it. Though first I've got to escape whatever mess I'm in now. \n\n~ Object
+    ~\nMust find chests and keys. Chests can give me keys to unlock other chests
+    or even doors. Keys do the same. The entity (which looks like a knight) could
+    be anywhere while I'm looking for keys and chests, best to keep clear of it.
+    \n"
 --- !u!222 &844774643
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -10976,7 +10977,7 @@ MonoBehaviour:
     m_BestFit: 1
     m_MinSize: 10
     m_MaxSize: 50
-    m_Alignment: 0
+    m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0

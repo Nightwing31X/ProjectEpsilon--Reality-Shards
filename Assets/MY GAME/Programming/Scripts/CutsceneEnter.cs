@@ -15,7 +15,6 @@ namespace GameDev
         public bool inCutscene = false;
         public float cutsceneDuration;
 
-
         void Awake()
         {
             cutsceneCam.SetActive(inCutscene);
