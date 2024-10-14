@@ -1,4 +1,5 @@
 using System.Security.Cryptography;
+using Enemy;
 using GameDev;
 using Menu;
 using UnityEngine;
@@ -36,6 +37,7 @@ namespace Player
         [SerializeField] private AudioClip[] _jumpClips;
         [SerializeField] private AudioSource _AudioSourceREF;
 
+        public bool isCrouch;
         //[SerializeField] bool isPlayerDead;
         Vector2 newInput;
 
@@ -151,6 +153,7 @@ namespace Player
                     staminaContainerOBJ.SetActive(true);
                     Sprint();
                     _isRunning = true;
+                    isCrouch = false;
                     _canRegenStamina = false;
                     timerValue = 0;
                 }
@@ -161,11 +164,13 @@ namespace Player
                     {
                         regenStamina();
                     }
+                    isCrouch = true;
                 }
                 else
                 {
                     _movementSpeed = _walk;
                     _isRunning = false;
+                    isCrouch = false;
                     if (!_isRunning)
                     {
                         regenStamina();

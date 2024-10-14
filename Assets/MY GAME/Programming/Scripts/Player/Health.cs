@@ -20,7 +20,7 @@ namespace Player
         [SerializeField] private float FireDamage = 15f;
         [SerializeField] private float environmentalDamagePerSeconds = 1.5f;
         [SerializeField] private bool canHeal = true;
-        [SerializeField] private bool isHurt = false;
+        [SerializeField] public bool isHurt = false;
         [SerializeField] private bool safeZone = false;
         private GameObject HUD;
         [SerializeField] private Image healthImpact;
@@ -118,6 +118,10 @@ namespace Player
                         currentHealth += currentRegenValue * Time.deltaTime;
                         //UpdateUI();
                         particalAura.SetActive(true);
+                    }
+                    else
+                    {
+                        particalAura.SetActive(false);
                     }
                 }
             }
