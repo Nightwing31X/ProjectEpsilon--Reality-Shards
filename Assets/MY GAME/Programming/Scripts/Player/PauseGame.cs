@@ -35,36 +35,39 @@ namespace Player
         // Update is called once per frame
         void Update()
         {
-            if (!PausedMenu && Input.GetButtonDown("Pause"))
+            if (GameManager.instance.state == GameStates.Play)
             {
-                //Time.timeScale = 0;
-                GameManager.instance.OnPause();
-                GameManager.instance.inPause = true;
-                PausedMenu = true;
-                MenuPaused.SetActive(PausedMenu);
-                PlayerHUD.SetActive(false);
+                if (!PausedMenu && Input.GetButtonDown("Pause"))
+                {
+                    //Time.timeScale = 0;
+                    GameManager.instance.OnPause();
+                    GameManager.instance.inPause = true;
+                    PausedMenu = true;
+                    MenuPaused.SetActive(PausedMenu);
+                    PlayerHUD.SetActive(false);
 
-                // Cursor.lockState = CursorLockMode.None;
-                // Cursor.visible = true;
-                _inCutscene = GameManager.instance.inCutscene;
-                if (_inCutscene)
-                {
-                    respawnPauseBTN.interactable = false; //? This leaves the button on the screen with the disabled color and the user can’t click it
-                    //respawnPauseBTN.enabled = false; //? This leaves the button on the screen, the user can’t click it, but does NOT use the disabled color
-                    //respawnPauseBTN.gameObject.SetActive(false); //? This removes the button from the UI entirely:
+                    // Cursor.lockState = CursorLockMode.None;
+                    // Cursor.visible = true;
+                    _inCutscene = GameManager.instance.inCutscene;
+                    if (_inCutscene)
+                    {
+                        respawnPauseBTN.interactable = false; //? This leaves the button on the screen with the disabled color and the user can’t click it
+                        //respawnPauseBTN.enabled = false; //? This leaves the button on the screen, the user can’t click it, but does NOT use the disabled color
+                        //respawnPauseBTN.gameObject.SetActive(false); //? This removes the button from the UI entirely:
+                    }
+                    else
+                    {
+                        respawnPauseBTN.interactable = true;
+                    }
                 }
-                else
+                else if (PausedMenu && Input.GetButtonDown("Pause"))
                 {
-                    respawnPauseBTN.interactable = true;
+                    //Time.timeScale = 1;
+                    CheckState();
+                    PausedMenu = false;
+                    MenuPaused.SetActive(PausedMenu);
+                    PlayerHUD.SetActive(true);
                 }
-            }
-            else if (PausedMenu && Input.GetButtonDown("Pause"))
-            {
-                //Time.timeScale = 1;
-                CheckState();
-                PausedMenu = false;
-                MenuPaused.SetActive(PausedMenu);
-                PlayerHUD.SetActive(true);
             }
         }
 

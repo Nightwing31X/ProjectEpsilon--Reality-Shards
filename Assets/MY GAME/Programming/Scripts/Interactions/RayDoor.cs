@@ -19,9 +19,7 @@ namespace Interactions
         public AudioSource openDoorAS;
         public AudioSource closeDoorAS;
         public AudioSource lockedDoorAS;
-
-        public AIController enemyRef;
-        public bool enemyAtDoor;
+        public bool openDoorAI;
 
         // Start is called before the first frame update
         void Start()
@@ -34,8 +32,6 @@ namespace Interactions
             animator = GetComponentInParent<Animator>();
             isOpen = false;
             animator.SetBool("open", isOpen);
-
-            enemyRef = GetComponent<AIController>();
         }
 
         public void closeDoorAuto()
@@ -47,34 +43,23 @@ namespace Interactions
                 animator.SetBool("open", isOpen);
             }
         }
-
+        public void CheckDoorForAI()
+        {
+            openDoorAI = GameObject.FindWithTag("Knight").GetComponent<AIController>().openDoor;
+            if (openDoorAI)
+            {
+                if (keyOBJNeeded.activeInHierarchy)
+                {
+                    Debug.Log("Can open door...");
+                }
+            }
+        }
         IEnumerator Delay() // Shows the missing key test for 1 second then disappears
         {
             lockedDoorAS.Play();
             LockedDoorText.SetActive(true);
             yield return new WaitForSeconds(1f); //# Waits 1 seconds (thats how long the audio is)
             LockedDoorText.SetActive(false);
-        }
-
-
-        public void OnTriggerEnter(Collider other)
-        {
-            if (other.tag == "Knight")
-            {
-                Debug.Log("In front door");
-                enemyAtDoor = true;
-                enemyRef.nearDoor = enemyAtDoor;
-            }
-        }
-
-        public void OnTriggerExit(Collider other)
-        {
-            if (other.tag == "Knight")
-            {
-                Debug.Log("Left the door");
-                enemyAtDoor = false;
-                enemyRef.nearDoor = enemyAtDoor;
-            }
         }
         public void Interact()
         {

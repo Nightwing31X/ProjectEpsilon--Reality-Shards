@@ -6,6 +6,7 @@ using Player;
 using GameDev;
 using Unity.VisualScripting;
 using Interactions;
+using System.Runtime.InteropServices.WindowsRuntime;
 
 namespace Enemy
 {
@@ -62,6 +63,7 @@ namespace Enemy
         [SerializeField] public CharacterController _characterController;
         [SerializeField] public bool _characterHealth;
         public bool nearDoor;
+        public bool openDoor;
         #endregion
         #region Unity Event Functions
         private void Awake()
@@ -76,7 +78,6 @@ namespace Enemy
             TransitionToState(_state);
 
             _characterController = GameObject.FindWithTag("Player").GetComponent<CharacterController>();
-            _characterHealth = _characterController.GetComponent<Health>().isHurt;
         }
         private void Update()
         {
@@ -190,105 +191,124 @@ namespace Enemy
         #region States
         void TransitionToState(AIState newState)
         {
-            _state = newState;
+            if (GameManager.instance.state == GameStates.Play)
+            {
+                _state = newState;
+            }
         }
         IEnumerator Idle()
         {
-            if (isStunned)
+            if (GameManager.instance.state == GameStates.Play)
             {
-                yield return null;
-            }
-            PlayAnim("Idle");
-            _agent.stoppingDistance = 2.5f;
-            _agent.speed = 0;
-            timer = Random.Range(3, 10f);
-            yield return new WaitForSeconds(timer);
-            if (_state == AIState.Idle)
-            {
-                int choice = Random.Range(0, 2);
-                if (choice == 0)
+                if (isStunned)
                 {
-                    _randomPosition = GetRandomPosition();
-                    TransitionToState(AIState.Wander);
-
+                    yield return null;
                 }
-            }
-            else
-            {
-                TransitionToState(AIState.Patrol);
+                PlayAnim("Idle");
+                _agent.stoppingDistance = 2.5f;
+                _agent.speed = 0;
+                timer = Random.Range(3, 10f);
+                yield return new WaitForSeconds(timer);
+                if (_state == AIState.Idle)
+                {
+                    int choice = Random.Range(0, 2);
+                    if (choice == 0)
+                    {
+                        _randomPosition = GetRandomPosition();
+                        TransitionToState(AIState.Wander);
+
+                    }
+                }
+                else
+                {
+                    TransitionToState(AIState.Patrol);
+                }
             }
         }
 
 
         void Patrol()
         {
-            if (isStunned)
+            if (GameManager.instance.state == GameStates.Play)
             {
-                return;
-            }
-            _agent.speed = _walkSpeed;
-            _agent.stoppingDistance = 0f;
+                if (isStunned)
+                {
+                    return;
+                }
+                _agent.speed = _walkSpeed;
+                _agent.stoppingDistance = 0f;
 
-            PlayAnim("Walk");
-            if (_wayPoints.Length == 0)
-            {
-                TransitionToState(AIState.Idle);
-            }
-            if (!_agent.pathPending && _agent.remainingDistance <= _agent.stoppingDistance)
-            {
-                int choice = Random.Range(0, 6);
-                if (choice == 0)
+                PlayAnim("Walk");
+                if (_wayPoints.Length == 0)
                 {
                     TransitionToState(AIState.Idle);
                 }
-                else
+                if (!_agent.pathPending && _agent.remainingDistance <= _agent.stoppingDistance)
                 {
-                    TransitionToNextWayPoint();
+                    int choice = Random.Range(0, 6);
+                    if (choice == 0)
+                    {
+                        TransitionToState(AIState.Idle);
+                    }
+                    else
+                    {
+                        TransitionToNextWayPoint();
+                    }
                 }
             }
         }
 
         void TransitionToNextWayPoint()
         {
-            _currentWayPointIndex = (_currentWayPointIndex + 1) % _wayPoints.Length;
-            _agent.SetDestination(_wayPoints[_currentWayPointIndex].position);
-            _agent.speed = _walkSpeed;
-            PlayAnim("Walk");
+            if (GameManager.instance.state == GameStates.Play)
+            {
+                if (isStunned)
+                {
+                    return;
+                }
+                _currentWayPointIndex = (_currentWayPointIndex + 1) % _wayPoints.Length;
+                _agent.SetDestination(_wayPoints[_currentWayPointIndex].position);
+                _agent.speed = _walkSpeed;
+                PlayAnim("Walk");
+            }
         }
         void Wander()
         {
-            if (isStunned)
+            if (GameManager.instance.state == GameStates.Play)
             {
-                return;
-            }
-            _agent.SetDestination(_randomPosition);
-            _agent.stoppingDistance = 0f;
-
-            while (_agent.pathStatus == NavMeshPathStatus.PathInvalid)
-            {
-                GetRandomPosition();
-                _agent.SetDestination(_randomPosition);
-            }
-            _agent.speed = _walkSpeed;
-            PlayAnim("Walk");
-            //Debug.Log("1");
-            if (_agent.remainingDistance <= 1f)
-            {
-                //Debug.Log("2");
-                int choice = Random.Range(0, 10);
-                //Debug.Log("3: " + choice);
-
-                if (choice == 0)
+                if (isStunned)
                 {
-                    //Debug.Log("4: Idle");
-                    TransitionToState(AIState.Idle);
+                    return;
                 }
-                else
+                _agent.SetDestination(_randomPosition);
+                _agent.stoppingDistance = 0f;
+
+                while (_agent.pathStatus == NavMeshPathStatus.PathInvalid)
                 {
-                    //Debug.Log("4: Wander");
-                    _randomPosition = GetRandomPosition();
-                    //Debug.Log("5: Wander");
-                    TransitionToState(AIState.Wander);
+                    GetRandomPosition();
+                    _agent.SetDestination(_randomPosition);
+                }
+                _agent.speed = _walkSpeed;
+                PlayAnim("Walk");
+                //Debug.Log("1");
+                if (_agent.remainingDistance <= 1f)
+                {
+                    //Debug.Log("2");
+                    int choice = Random.Range(0, 10);
+                    //Debug.Log("3: " + choice);
+
+                    if (choice == 0)
+                    {
+                        //Debug.Log("4: Idle");
+                        TransitionToState(AIState.Idle);
+                    }
+                    else
+                    {
+                        //Debug.Log("4: Wander");
+                        _randomPosition = GetRandomPosition();
+                        //Debug.Log("5: Wander");
+                        TransitionToState(AIState.Wander);
+                    }
                 }
             }
         }
@@ -308,99 +328,109 @@ namespace Enemy
         }
         void Chase()
         {
-            if (isStunned)
+            if (GameManager.instance.state == GameStates.Play)
             {
-                //Debug.Log("Return Coz Stun");
-                return;
-            }
-            _agent.SetDestination(GetPlayerPosition());
-            //Debug.Log("Destination");
-            PlayAnim("Run");
-            //Debug.Log("Animation");
-            _agent.stoppingDistance = 0.2f;
-            //Debug.Log("stop dist");
-            _agent.speed = _runSpeed;
-            //Debug.Log("runSpeed");
-
-            // Slow down as the enemy approaches the player
-            float distanceToPlayer = Vector3.Distance(transform.position, GetPlayerPosition());
-            if (distanceToPlayer <= _attackDistance)
-            {
-                TransitionToState(AIState.Attack);
-                if (!_characterHealth)
+                if (isStunned)
                 {
-                    _characterController.GetComponent<Health>().DamagePlayer(_attackDamage);
+                    //Debug.Log("Return Coz Stun");
+                    return;
                 }
-            }           
+                _agent.SetDestination(GetPlayerPosition());
+                //Debug.Log("Destination");
+                PlayAnim("Run");
+                //Debug.Log("Animation");
+                //_agent.stoppingDistance = 0.2f;
+                //Debug.Log("stop dist");
+                _agent.speed = _runSpeed;
+                //Debug.Log("runSpeed");
+
+                // Slow down as the enemy approaches the player
+                float distanceToPlayer = Vector3.Distance(transform.position, GetPlayerPosition());
+                if (distanceToPlayer <= _attackDistance)
+                {
+                    _characterHealth = _characterController.GetComponent<Health>().isHurt;
+                    if (!_characterHealth)
+                    {
+                        _characterController.GetComponent<Health>().DamagePlayer(_attackDamage);
+                        TransitionToState(AIState.Attack);
+                    }
+                }
+            }
         }
 
         void Stun()
         {
-            isStunned = true;
-            // Play the stun animation
-            PlayAnim("Stun");
-            // Disable enemy and stop movement
-            Debug.Log("Need to make sure they enemy doesn't keep moving...");
-            // Start a coroutine to resume after the stun duration
-            StartCoroutine(RecoverFromStun());
+            if (GameManager.instance.state == GameStates.Play)
+            {
+                isStunned = true;
+                // Disable enemy and stop movement
+                //Debug.Log("Need to make sure they enemy doesn't keep moving...");
+                _agent.isStopped = isStunned;
+                // Play the stun animation
+                PlayAnim("Stun");
+                // Start a coroutine to resume after the stun duration
+                StartCoroutine(RecoverFromStun());
+            }
         }
 
         IEnumerator RecoverFromStun()
         {
-        
-            // Wait for the stun duration
-            yield return new WaitForSeconds(_stunDuration);
-
-
-            isStunned = false;
-
-            // Transition back to a previous state
-            TransitionToState(AIState.Idle);
+            if (GameManager.instance.state == GameStates.Play)
+            {
+                // Wait for the stun duration
+                yield return new WaitForSeconds(_stunDuration);
+                isStunned = false;
+                // Enable the enemy to move again
+                _agent.isStopped = isStunned;
+                // Transition back to a previous state
+                TransitionToState(AIState.Idle);
+            }
         }
 
         void Attack()
         {
-            if (isStunned)
+            if (GameManager.instance.state == GameStates.Play)
             {
-                return;
-            }
-            // Stop enemy while attacking to prevent sliding past Player
-            _agent.isStopped = true;
-            _agent.speed = 0;
-            _agent.stoppingDistance = 2f;
-            // Trigger attack animation
-            PlayAnim("Attack");
+                if (isStunned)
+                {
+                    return;
+                }
+                // Stop enemy while attacking to prevent sliding past Player
+                _agent.isStopped = true;
+                _agent.speed = 0;
+                _agent.stoppingDistance = 2f;
+                // Trigger attack animation
+                PlayAnim("Attack");
 
-            // Once the attack is over, re-enable
-            StartCoroutine(ResumeAfterAttack());
+                // Once the attack is over, re-enable
+                StartCoroutine(ResumeAfterAttack());
+            }
         }
 
         // Coroutine to resume movement after the attack animation
         IEnumerator ResumeAfterAttack()
         {
-            // Wait for the attack animation duration or a fixed time
-            yield return new WaitForSeconds(1f);
-
-            // After the attack, re-enable movement
-            _agent.isStopped = false;
-
-            // If the player is still in range, transition to Chase, otherwise go idle or patrol
-            float distanceToPlayer = Vector3.Distance(transform.position, GetPlayerPosition());
-            if (distanceToPlayer > _attackDistance)
+            if (GameManager.instance.state == GameStates.Play)
             {
-                TransitionToState(AIState.Chase);
-            }
-            else
-            {
-                TransitionToState(AIState.Patrol);
+                // Wait for the attack animation duration or a fixed time
+                yield return new WaitForSeconds(1f);
+
+                // After the attack, re-enable movement
+                _agent.isStopped = false;
+
+                // If the player is still in range, transition to Chase, otherwise go idle or patrol
+                float distanceToPlayer = Vector3.Distance(transform.position, GetPlayerPosition());
+                if (distanceToPlayer > _attackDistance)
+                {
+                    TransitionToState(AIState.Chase);
+                }
+                else
+                {
+                    TransitionToState(AIState.Patrol);
+                }
             }
         }
 
-        public void DealDamageToPlayer()
-        {
-            // Code for dealing damage to the player (this depends on your game's damage system)
-            Debug.Log("Dealing damage to the player");
-        }
         #endregion
         void PlayAnim(string trigger)
         {
@@ -417,8 +447,41 @@ namespace Enemy
 
         public void Interact()
         {
-            Stun();
-            Debug.Log("Hit the enemy...");
+            if (GameManager.instance.state == GameStates.Play)
+            {
+                Debug.Log("Hit the enemy...");
+                Stun();
+                Debug.Log("Stun anim...");
+            }
+        }
+
+
+        public void OnTriggerEnter(Collider other)
+        {
+            if (GameManager.instance.state == GameStates.Play)
+            {
+                if (other.tag == "NearDoor")
+                {
+                    Debug.Log("In front door");
+                    TransitionToState(AIState.Idle);
+                    nearDoor = true;
+                    openDoor = nearDoor;
+                    other.GetComponent<RayDoor>().CheckDoorForAI();
+                }
+            }
+        }
+
+        public void OnTriggerExit(Collider other)
+        {
+            if (GameManager.instance.state == GameStates.Play)
+            {
+                if (other.tag == "NearDoor")
+                {
+                    Debug.Log("Left the door");
+                    // TransitionToState(AIState.Idle);
+                    nearDoor = false;
+                }
+            }
         }
     }
 }

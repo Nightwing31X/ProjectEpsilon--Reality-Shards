@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System.Collections;
 using GameDev;
+using UnityEngine.AI;
 
 
 namespace Player
@@ -33,6 +34,8 @@ namespace Player
         [SerializeField] private AudioClip[] _damageClips;
         [SerializeField] private AudioSource _AudioSourceREF;
 
+        GameObject[] enemies;
+        GameObject[] enemy;
 
         public void DamagePlayer(float damageValue)
         {
@@ -73,7 +76,6 @@ namespace Player
                 HUD.SetActive(false);
             }
         }
-
         //public IEnumerator WaitForPlay(float waitTime)
         //{
         //    yield return new WaitForSeconds(waitTime);

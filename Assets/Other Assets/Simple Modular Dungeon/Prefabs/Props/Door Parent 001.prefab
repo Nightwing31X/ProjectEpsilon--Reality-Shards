@@ -19,7 +19,7 @@ GameObject:
   - component: {fileID: 1550347278926107386}
   m_Layer: 7
   m_Name: Door Variation 001
-  m_TagString: Untagged
+  m_TagString: NearDoor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -131,8 +131,6 @@ MonoBehaviour:
   openDoorAS: {fileID: 9002246700354400343}
   closeDoorAS: {fileID: 37098717025665293}
   lockedDoorAS: {fileID: 587305721883563227}
-  enemyRef: {fileID: 0}
-  enemyAtDoor: 0
 --- !u!82 &9002246700354400343
 AudioSource:
   m_ObjectHideFlags: 0
