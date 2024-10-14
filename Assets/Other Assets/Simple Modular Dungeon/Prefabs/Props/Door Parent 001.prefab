@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 9002246700354400343}
   - component: {fileID: 37098717025665293}
   - component: {fileID: 587305721883563227}
+  - component: {fileID: 1550347278926107386}
   m_Layer: 7
   m_Name: Door Variation 001
   m_TagString: Untagged
@@ -130,6 +131,8 @@ MonoBehaviour:
   openDoorAS: {fileID: 9002246700354400343}
   closeDoorAS: {fileID: 37098717025665293}
   lockedDoorAS: {fileID: 587305721883563227}
+  enemyRef: {fileID: 0}
+  enemyAtDoor: 0
 --- !u!82 &9002246700354400343
 AudioSource:
   m_ObjectHideFlags: 0
@@ -418,6 +421,27 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!65 &1550347278926107386
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4022257242213796002}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 3.469295, y: 2, z: 2.2315302}
+  m_Center: {x: -0.0028637052, y: 1, z: 0.100903034}
 --- !u!1 &8486425337892566474
 GameObject:
   m_ObjectHideFlags: 0

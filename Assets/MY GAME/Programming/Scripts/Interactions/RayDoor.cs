@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Enemy;
 using Unity.VisualScripting.Dependencies.NCalc;
 using UnityEngine;
 
@@ -15,10 +16,12 @@ namespace Interactions
         public GameObject keyOBJNeeded;
         public GameObject LockedDoorText;
 
-
         public AudioSource openDoorAS;
         public AudioSource closeDoorAS;
         public AudioSource lockedDoorAS;
+
+        public AIController enemyRef;
+        public bool enemyAtDoor;
 
         // Start is called before the first frame update
         void Start()
@@ -31,6 +34,8 @@ namespace Interactions
             animator = GetComponentInParent<Animator>();
             isOpen = false;
             animator.SetBool("open", isOpen);
+
+            enemyRef = GetComponent<AIController>();
         }
 
         public void closeDoorAuto()
@@ -51,6 +56,26 @@ namespace Interactions
             LockedDoorText.SetActive(false);
         }
 
+
+        public void OnTriggerEnter(Collider other)
+        {
+            if (other.tag == "Knight")
+            {
+                Debug.Log("In front door");
+                enemyAtDoor = true;
+                enemyRef.nearDoor = enemyAtDoor;
+            }
+        }
+
+        public void OnTriggerExit(Collider other)
+        {
+            if (other.tag == "Knight")
+            {
+                Debug.Log("Left the door");
+                enemyAtDoor = false;
+                enemyRef.nearDoor = enemyAtDoor;
+            }
+        }
         public void Interact()
         {
             if (lockedDoor)

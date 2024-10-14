@@ -14531,7 +14531,7 @@ Transform:
   m_GameObject: {fileID: 330269713}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 55, y: 3, z: 33}
+  m_LocalPosition: {x: 44.17, y: 3, z: 31.172}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -18092,7 +18092,11 @@ PrefabInstance:
       objectReference: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
     - target: {fileID: 919132149155446097, guid: a0d5c3df4c7713245bfed9c973161157, type: 3}
       propertyPath: m_Name
-      value: Paladin J Nordstrom
+      value: Knight
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: a0d5c3df4c7713245bfed9c973161157, type: 3}
+      propertyPath: m_TagString
+      value: Knight
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -18137,18 +18141,20 @@ MonoBehaviour:
   - {fileID: 330269714}
   _currentWayPointIndex: 0
   _randomPosition: {x: 0, y: 0, z: 0}
-  OGdetectionRadius: 5
-  detectionRadius: 5
+  OGdetectionRadius: 10
+  detectionRadius: 10
   _playerLayer:
     serializedVersion: 2
     m_Bits: 64
   _chaseDistance: 20
   _attackDistance: 2
-  _attackDamage: 30
+  _attackDamage: 20
   _stunDuration: 3
   timer: 0
   isPlayerCrouch: 0
   _characterController: {fileID: 0}
+  _characterHealth: 0
+  nearDoor: 0
 --- !u!195 &410236999
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -18181,7 +18187,7 @@ Animator:
   m_GameObject: {fileID: 410236997}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a711c7667f0193443a0e995fd50359d2, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -21206,7 +21212,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: 'XX - Key - Door Parent '
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1550347278926107386, guid: c41ce6c57e761324ba25b51cdf09af54, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -54714,7 +54721,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: 'XX - Key - Door Parent '
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1550347278926107386, guid: c41ce6c57e761324ba25b51cdf09af54, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -61770,6 +61778,7 @@ Transform:
   - {fileID: 168173917}
   - {fileID: 233797675}
   - {fileID: 330269714}
+  - {fileID: 1740721511}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1403966001
@@ -76128,6 +76137,37 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8460917321318470221, guid: 3964c23ae9838e84889ea6d65b5861aa, type: 3}
   m_PrefabInstance: {fileID: 1738831166}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1740721510
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1740721511}
+  m_Layer: 0
+  m_Name: 4
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1740721511
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1740721510}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 38.901, y: 3, z: 35.972}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1402676380}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1743971244
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -78679,7 +78719,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: 'Fake - Door '
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1550347278926107386, guid: c41ce6c57e761324ba25b51cdf09af54, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

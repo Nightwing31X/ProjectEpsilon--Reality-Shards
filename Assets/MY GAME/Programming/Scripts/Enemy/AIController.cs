@@ -5,6 +5,7 @@ using UnityEngine;
 using Player;
 using GameDev;
 using Unity.VisualScripting;
+using Interactions;
 
 namespace Enemy
 {
@@ -60,6 +61,7 @@ namespace Enemy
         public bool isPlayerCrouch;
         [SerializeField] public CharacterController _characterController;
         [SerializeField] public bool _characterHealth;
+        public bool nearDoor;
         #endregion
         #region Unity Event Functions
         private void Awake()
@@ -80,6 +82,14 @@ namespace Enemy
         {
             if (GameManager.instance.state == GameStates.Play)
             {
+                if (nearDoor)
+                {
+                    Debug.Log("NEAR DOOR!!!");
+                }
+                // else
+                // {
+                //     //Debug.Log("Not near door...");
+                // }
                 isPlayerCrouch = _characterController.GetComponent<Movement>().isCrouch;
                 if (isPlayerCrouch)
                 {
@@ -261,23 +271,23 @@ namespace Enemy
             }
             _agent.speed = _walkSpeed;
             PlayAnim("Walk");
-            Debug.Log("1");
+            //Debug.Log("1");
             if (_agent.remainingDistance <= 1f)
             {
-                Debug.Log("2");
+                //Debug.Log("2");
                 int choice = Random.Range(0, 10);
-                Debug.Log("3: " + choice);
+                //Debug.Log("3: " + choice);
 
                 if (choice == 0)
                 {
-                    Debug.Log("4: Idle");
+                    //Debug.Log("4: Idle");
                     TransitionToState(AIState.Idle);
                 }
                 else
                 {
-                    Debug.Log("4: Wander");
+                    //Debug.Log("4: Wander");
                     _randomPosition = GetRandomPosition();
-                    Debug.Log("5: Wander");
+                    //Debug.Log("5: Wander");
                     TransitionToState(AIState.Wander);
                 }
             }
@@ -300,21 +310,19 @@ namespace Enemy
         {
             if (isStunned)
             {
-                Debug.Log("Return Coz Stunn");
+                //Debug.Log("Return Coz Stun");
                 return;
-                
             }
             _agent.SetDestination(GetPlayerPosition());
-            Debug.Log("Destination");
+            //Debug.Log("Destination");
             PlayAnim("Run");
-            Debug.Log("Animation");
+            //Debug.Log("Animation");
             _agent.stoppingDistance = 0.2f;
-            Debug.Log("stopp dist");
+            //Debug.Log("stop dist");
             _agent.speed = _runSpeed;
-            Debug.Log("runSpeed");
+            //Debug.Log("runSpeed");
 
-
-            //// Slow down as the enemy approaches the player
+            // Slow down as the enemy approaches the player
             float distanceToPlayer = Vector3.Distance(transform.position, GetPlayerPosition());
             if (distanceToPlayer <= _attackDistance)
             {
@@ -332,8 +340,7 @@ namespace Enemy
             // Play the stun animation
             PlayAnim("Stun");
             // Disable enemy and stop movement
-             
-            
+            Debug.Log("Need to make sure they enemy doesn't keep moving...");
             // Start a coroutine to resume after the stun duration
             StartCoroutine(RecoverFromStun());
         }
