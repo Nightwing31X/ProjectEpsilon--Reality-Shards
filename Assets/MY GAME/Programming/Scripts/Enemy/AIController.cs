@@ -62,16 +62,13 @@ namespace Enemy
         public bool isPlayerRun;
         [SerializeField] public CharacterController _characterController;
         [SerializeField] public bool _characterHealth;
-        public bool nearDoor;
-        public bool openDoor;
+
+        string currentAnim;
         #endregion
         #region Unity Event Functions
-        private void Awake()
-        {
-            OGdetectionRadius = detectionRadius;
-        }
         private void Start()
         {
+            OGdetectionRadius = detectionRadius;
             _agent = GetComponent<NavMeshAgent>();
             _animator = GetComponent<Animator>();
             _state = AIState.Idle;
@@ -83,40 +80,42 @@ namespace Enemy
         {
             if (GameManager.instance.state == GameStates.Play)
             {
-                if (nearDoor)
-                {
-                    Debug.Log("NEAR DOOR!!!");
-                }
-                // else
-                // {
-                //     //Debug.Log("Not near door...");
-                // }
+                _animator.speed = 1;
+
                 isPlayerCrouch = _characterController.GetComponent<Movement>().isCrouch;
-                if (isPlayerCrouch)
+                if (!isPlayerRun)
                 {
-                    if (detectionRadius == OGdetectionRadius || detectionRadius == detectionRadius * 2)
+                    if (isPlayerCrouch)
+                    {
+                        if (detectionRadius == OGdetectionRadius || detectionRadius == detectionRadius * 2)
+                        {
+                            detectionRadius = OGdetectionRadius;
+                            Debug.Log(detectionRadius);
+                            detectionRadius = detectionRadius / 2;
+                            Debug.Log(detectionRadius);
+                        }
+                    }
+                    else
                     {
                         detectionRadius = OGdetectionRadius;
-                        detectionRadius = detectionRadius / 2;
                     }
-                }
-                else
-                {
-                    detectionRadius = OGdetectionRadius;
                 }
 
                 isPlayerRun = _characterController.GetComponent<Movement>().isRun;
-                if (isPlayerRun)
+                if (!isPlayerCrouch)
                 {
-                    if (detectionRadius == OGdetectionRadius || detectionRadius == detectionRadius / 2)
+                    if (isPlayerRun)
+                    {
+                        if (detectionRadius == OGdetectionRadius || detectionRadius == detectionRadius / 2)
+                        {
+                            detectionRadius = OGdetectionRadius;
+                            detectionRadius = detectionRadius * 2;
+                        }
+                    }
+                    else
                     {
                         detectionRadius = OGdetectionRadius;
-                        detectionRadius = detectionRadius * 2;
                     }
-                }
-                else
-                {
-                    detectionRadius = OGdetectionRadius;
                 }
 
                 switch (_state)
@@ -141,8 +140,14 @@ namespace Enemy
                         break;
                 }
             }
-
+            else
+            {
+                _agent.isStopped = true;
+                _agent.speed = 0;
+                _animator.speed = 0;
+            }
         }
+
         private void LateUpdate()
         {
             if (GameManager.instance.state == GameStates.Play)
@@ -164,32 +169,27 @@ namespace Enemy
                 {
                     case AIState.Idle:
                         _agent.isStopped = true;
-                        //_agent.stoppingDistance = 2.5f;
                         _agent.speed = 0;
                         StartCoroutine(Idle());
                         break;
                     case AIState.Patrol:
                         _agent.isStopped = false;
-                        //_agent.stoppingDistance = 0f;
                         _agent.speed = _walkSpeed;
                         Patrol();
                         break;
                     case AIState.Wander:
                         _agent.isStopped = false;
-                        //_agent.stoppingDistance = 0f;
                         _agent.speed = _walkSpeed;
                         Wander();
                         break;
                     case AIState.Stun:
                         _agent.destination = this.transform.position;
-                        _agent.isStopped = true;
-                        //_agent.stoppingDistance = 2.5f;
+                        _agent.isStopped = true;;
                         _agent.speed = 0;
                         Stun();
                         break;
                     case AIState.Attack:
                         _agent.isStopped = true;
-                        //_agent.stoppingDistance = 2.5f;
                         _agent.speed = 0;
                         Attack();
                         break;
@@ -354,7 +354,7 @@ namespace Enemy
                 //Debug.Log("Destination");
                 PlayAnim("Run");
                 //Debug.Log("Animation");
-                //_agent.stoppingDistance = 0.2f;
+                _agent.stoppingDistance = 0.2f;
                 //Debug.Log("stop dist");
                 _agent.speed = _runSpeed;
                 //Debug.Log("runSpeed");
@@ -413,7 +413,7 @@ namespace Enemy
                 // Stop enemy while attacking to prevent sliding past Player
                 _agent.isStopped = true;
                 _agent.speed = 0;
-                _agent.stoppingDistance = 2f;
+                _agent.stoppingDistance = 3f;
                 // Trigger attack animation
                 PlayAnim("Attack");
 
@@ -449,6 +449,7 @@ namespace Enemy
         #endregion
         void PlayAnim(string trigger)
         {
+            currentAnim = trigger;
             if (_animator != null)
             {
                 _animator.SetTrigger(trigger);
@@ -482,25 +483,24 @@ namespace Enemy
                 {
                     Debug.Log("In front door");
                     TransitionToState(AIState.Idle);
-                    nearDoor = true;
-                    openDoor = nearDoor;
-                    other.GetComponent<RayDoor>().CheckDoorForAI();
+                    //nearDoor = true;
+                    other.GetComponentInChildren<RayDoor>().CheckDoorForAI();
                 }
             }
         }
 
-        public void OnTriggerExit(Collider other)
-        {
-            if (GameManager.instance.state == GameStates.Play)
-            {
-                if (other.tag == "NearDoor")
-                {
-                    Debug.Log("Left the door");
-                    // TransitionToState(AIState.Idle);
-                    nearDoor = false;
-                }
-            }
-        }
+        // public void OnTriggerExit(Collider other)
+        // {
+        //     if (GameManager.instance.state == GameStates.Play)
+        //     {
+        //         if (other.tag == "NearDoor")
+        //         {
+        //             Debug.Log("Left the door");
+        //             // TransitionToState(AIState.Idle);
+        //             //nearDoor = false;
+        //         }
+        //     }
+        // }
     }
 }
 

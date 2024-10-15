@@ -19,7 +19,8 @@ namespace Interactions
         public AudioSource openDoorAS;
         public AudioSource closeDoorAS;
         public AudioSource lockedDoorAS;
-        public bool openDoorAI;
+
+        bool _openDoorAI;
 
         // Start is called before the first frame update
         void Start()
@@ -45,27 +46,31 @@ namespace Interactions
         }
         public void CheckDoorForAI()
         {
-            openDoorAI = GameObject.FindWithTag("Knight").GetComponent<AIController>().openDoor;
-            if (openDoorAI)
-            {
-                if (keyOBJNeeded.activeInHierarchy)
-                {
-                    Debug.Log("Can open door...");
-                }
-                else
-                {
-                    Debug.Log("Cannot open...");
-                }
-            }
+            // _openDoorAI = GameObject.FindWithTag("Knight").GetComponent<AIController>().nearDoor;
+            // CheckDoorInteract();
+            CheckDoorAIInteract();
+            // if (keyOBJNeeded.activeInHierarchy)
+            // {
+            //     Debug.Log("Can open door...");
+            // }
+            // else
+            // {
+            //     Debug.Log("Cannot open...");
+            // }
         }
         IEnumerator Delay() // Shows the missing key test for 1 second then disappears
         {
             lockedDoorAS.Play();
             LockedDoorText.SetActive(true);
-            yield return new WaitForSeconds(1f); //# Waits 1 seconds (thats how long the audio is)
+            yield return new WaitForSeconds(1f); //# Waits 1 seconds (that's how long the audio is)
             LockedDoorText.SetActive(false);
         }
         public void Interact()
+        {
+            CheckDoorInteract();
+        }
+
+        void CheckDoorInteract()
         {
             if (lockedDoor)
             {
@@ -99,6 +104,28 @@ namespace Interactions
                 {
                     closeDoorAS.Play();
                 }
+                animator.SetBool("open", isOpen);
+            }
+        }
+
+        void CheckDoorAIInteract()
+        {
+            Debug.Log("AI is interacting with the Door...");
+            if (lockedDoor)
+            {
+                if (keyOBJNeeded.activeInHierarchy)
+                {
+                    isOpen = true;
+                    animator.SetBool("open", isOpen);
+                }
+                else
+                {
+                    Debug.Log("Player doesn't have key, AI cannot open door...");
+                }
+            }
+            else
+            {
+                isOpen = true;
                 animator.SetBool("open", isOpen);
             }
         }

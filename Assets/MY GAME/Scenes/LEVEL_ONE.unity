@@ -18445,8 +18445,6 @@ MonoBehaviour:
   isPlayerRun: 0
   _characterController: {fileID: 0}
   _characterHealth: 0
-  nearDoor: 0
-  openDoor: 0
 --- !u!195 &410236999
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -18461,7 +18459,7 @@ NavMeshAgent:
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
-  m_StoppingDistance: 2
+  m_StoppingDistance: 3
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -38540,6 +38538,10 @@ PrefabInstance:
       propertyPath: LockedDoorText
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 7409837842166299958, guid: c41ce6c57e761324ba25b51cdf09af54, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8262697724841545840, guid: c41ce6c57e761324ba25b51cdf09af54, type: 3}
       propertyPath: m_LocalPosition.x
       value: 36.169304
@@ -38583,6 +38585,10 @@ PrefabInstance:
     - target: {fileID: 8961240179884113222, guid: c41ce6c57e761324ba25b51cdf09af54, type: 3}
       propertyPath: m_Name
       value: 4th - No Key - Door Parent
+      objectReference: {fileID: 0}
+    - target: {fileID: 8961240179884113222, guid: c41ce6c57e761324ba25b51cdf09af54, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -16,10 +16,10 @@ GameObject:
   - component: {fileID: 9002246700354400343}
   - component: {fileID: 37098717025665293}
   - component: {fileID: 587305721883563227}
-  - component: {fileID: 1550347278926107386}
+  - component: {fileID: 8777930711384173970}
   m_Layer: 7
   m_Name: Door Variation 001
-  m_TagString: NearDoor
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -419,27 +419,22 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!65 &1550347278926107386
-BoxCollider:
+--- !u!208 &8777930711384173970
+NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4022257242213796002}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 3.469295, y: 2, z: 2.2315302}
-  m_Center: {x: -0.0028637052, y: 1, z: 0.100903034}
+  m_Shape: 1
+  m_Extents: {x: 0.25, y: 1, z: 0.65}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 1, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &8486425337892566474
 GameObject:
   m_ObjectHideFlags: 0
@@ -534,10 +529,10 @@ GameObject:
   m_Component:
   - component: {fileID: 8262697724841545840}
   - component: {fileID: 2781535045787748527}
-  - component: {fileID: 7409837842166299958}
+  - component: {fileID: 7559095779766454112}
   m_Layer: 0
   m_Name: Door Parent 001
-  m_TagString: Untagged
+  m_TagString: NearDoor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -579,19 +574,24 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!208 &7409837842166299958
-NavMeshObstacle:
+--- !u!65 &7559095779766454112
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8961240179884113222}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Shape: 1
-  m_Extents: {x: 0.25, y: 1, z: 0.65}
-  m_MoveThreshold: 0.1
-  m_Carve: 0
-  m_CarveOnlyStationary: 1
-  m_Center: {x: 0, y: 1, z: 0}
-  m_TimeToStationary: 0.5
+  m_Size: {x: 3.469295, y: 2, z: 2.2315302}
+  m_Center: {x: -0.0028637052, y: 1, z: 0.100903034}

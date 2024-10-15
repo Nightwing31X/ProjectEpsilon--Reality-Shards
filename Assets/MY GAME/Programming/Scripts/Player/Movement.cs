@@ -185,7 +185,7 @@ namespace Player
                     }
                 }
                 // Moving the character 
-                // If our reference to the character controll`er has a value aka we connected it yay!!! woop
+                // If our reference to the character controller has a value aka we connected it yay!!! woop
                 if (_characterController != null)
                 {
                     // Check if we are on the ground so we can move coz that's how people work
