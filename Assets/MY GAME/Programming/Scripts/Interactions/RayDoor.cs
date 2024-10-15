@@ -52,6 +52,10 @@ namespace Interactions
                 {
                     Debug.Log("Can open door...");
                 }
+                else
+                {
+                    Debug.Log("Cannot open...");
+                }
             }
         }
         IEnumerator Delay() // Shows the missing key test for 1 second then disappears

@@ -6,7 +6,6 @@ using Player;
 using GameDev;
 using Unity.VisualScripting;
 using Interactions;
-using System.Runtime.InteropServices.WindowsRuntime;
 
 namespace Enemy
 {
@@ -58,8 +57,9 @@ namespace Enemy
         [SerializeField] private float _stunDuration = 3f;
         [SerializeField] float timer = 0;
         //bool idleChoice = false; // Not used
-        bool isStunned = false;
+        bool _isStunned = false;
         public bool isPlayerCrouch;
+        public bool isPlayerRun;
         [SerializeField] public CharacterController _characterController;
         [SerializeField] public bool _characterHealth;
         public bool nearDoor;
@@ -94,8 +94,9 @@ namespace Enemy
                 isPlayerCrouch = _characterController.GetComponent<Movement>().isCrouch;
                 if (isPlayerCrouch)
                 {
-                    if (detectionRadius == OGdetectionRadius)
+                    if (detectionRadius == OGdetectionRadius || detectionRadius == detectionRadius * 2)
                     {
+                        detectionRadius = OGdetectionRadius;
                         detectionRadius = detectionRadius / 2;
                     }
                 }
@@ -103,6 +104,21 @@ namespace Enemy
                 {
                     detectionRadius = OGdetectionRadius;
                 }
+
+                isPlayerRun = _characterController.GetComponent<Movement>().isRun;
+                if (isPlayerRun)
+                {
+                    if (detectionRadius == OGdetectionRadius || detectionRadius == detectionRadius / 2)
+                    {
+                        detectionRadius = OGdetectionRadius;
+                        detectionRadius = detectionRadius * 2;
+                    }
+                }
+                else
+                {
+                    detectionRadius = OGdetectionRadius;
+                }
+
                 switch (_state)
                 {
                     case AIState.Idle:
@@ -148,38 +164,37 @@ namespace Enemy
                 {
                     case AIState.Idle:
                         _agent.isStopped = true;
-                        _agent.stoppingDistance = 2.5f;
+                        //_agent.stoppingDistance = 2.5f;
                         _agent.speed = 0;
                         StartCoroutine(Idle());
                         break;
                     case AIState.Patrol:
                         _agent.isStopped = false;
-                        _agent.stoppingDistance = 0f;
+                        //_agent.stoppingDistance = 0f;
                         _agent.speed = _walkSpeed;
                         Patrol();
                         break;
                     case AIState.Wander:
                         _agent.isStopped = false;
-                        _agent.stoppingDistance = 0f;
+                        //_agent.stoppingDistance = 0f;
                         _agent.speed = _walkSpeed;
                         Wander();
                         break;
                     case AIState.Stun:
                         _agent.destination = this.transform.position;
                         _agent.isStopped = true;
-                        _agent.stoppingDistance = 2.5f;
+                        //_agent.stoppingDistance = 2.5f;
                         _agent.speed = 0;
                         Stun();
                         break;
                     case AIState.Attack:
                         _agent.isStopped = true;
-                        _agent.stoppingDistance = 2.5f;
+                        //_agent.stoppingDistance = 2.5f;
                         _agent.speed = 0;
                         Attack();
                         break;
                     case AIState.Chase:
                         _agent.isStopped = false;
-                        _agent.stoppingDistance = 0f;
                         _agent.speed = _runSpeed;
                         Chase();
                         break;
@@ -200,7 +215,7 @@ namespace Enemy
         {
             if (GameManager.instance.state == GameStates.Play)
             {
-                if (isStunned)
+                if (_isStunned)
                 {
                     yield return null;
                 }
@@ -231,7 +246,7 @@ namespace Enemy
         {
             if (GameManager.instance.state == GameStates.Play)
             {
-                if (isStunned)
+                if (_isStunned)
                 {
                     return;
                 }
@@ -262,7 +277,7 @@ namespace Enemy
         {
             if (GameManager.instance.state == GameStates.Play)
             {
-                if (isStunned)
+                if (_isStunned)
                 {
                     return;
                 }
@@ -276,7 +291,7 @@ namespace Enemy
         {
             if (GameManager.instance.state == GameStates.Play)
             {
-                if (isStunned)
+                if (_isStunned)
                 {
                     return;
                 }
@@ -330,7 +345,7 @@ namespace Enemy
         {
             if (GameManager.instance.state == GameStates.Play)
             {
-                if (isStunned)
+                if (_isStunned)
                 {
                     //Debug.Log("Return Coz Stun");
                     return;
@@ -362,10 +377,10 @@ namespace Enemy
         {
             if (GameManager.instance.state == GameStates.Play)
             {
-                isStunned = true;
+                _isStunned = true;
                 // Disable enemy and stop movement
                 //Debug.Log("Need to make sure they enemy doesn't keep moving...");
-                _agent.isStopped = isStunned;
+                _agent.isStopped = _isStunned;
                 // Play the stun animation
                 PlayAnim("Stun");
                 // Start a coroutine to resume after the stun duration
@@ -379,9 +394,9 @@ namespace Enemy
             {
                 // Wait for the stun duration
                 yield return new WaitForSeconds(_stunDuration);
-                isStunned = false;
+                _isStunned = false;
                 // Enable the enemy to move again
-                _agent.isStopped = isStunned;
+                _agent.isStopped = _isStunned;
                 // Transition back to a previous state
                 TransitionToState(AIState.Idle);
             }
@@ -391,7 +406,7 @@ namespace Enemy
         {
             if (GameManager.instance.state == GameStates.Play)
             {
-                if (isStunned)
+                if (_isStunned)
                 {
                     return;
                 }
@@ -449,9 +464,12 @@ namespace Enemy
         {
             if (GameManager.instance.state == GameStates.Play)
             {
-                Debug.Log("Hit the enemy...");
-                Stun();
-                Debug.Log("Stun anim...");
+                if (!_isStunned)
+                {
+                    Debug.Log("Hit the enemy...");
+                    Stun();
+                    Debug.Log("Stun anim...");
+                }
             }
         }
 

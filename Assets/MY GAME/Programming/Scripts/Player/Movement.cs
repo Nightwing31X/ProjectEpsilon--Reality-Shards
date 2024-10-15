@@ -38,6 +38,7 @@ namespace Player
         [SerializeField] private AudioSource _AudioSourceREF;
 
         public bool isCrouch;
+        public bool isRun;
         //[SerializeField] bool isPlayerDead;
         Vector2 newInput;
 
@@ -153,6 +154,7 @@ namespace Player
                     staminaContainerOBJ.SetActive(true);
                     Sprint();
                     _isRunning = true;
+                    isRun = _isRunning;
                     isCrouch = false;
                     _canRegenStamina = false;
                     timerValue = 0;
@@ -165,11 +167,13 @@ namespace Player
                         regenStamina();
                     }
                     isCrouch = true;
+                    isRun = false;
                 }
                 else
                 {
                     _movementSpeed = _walk;
                     _isRunning = false;
+                    isRun = false;
                     isCrouch = false;
                     if (!_isRunning)
                     {
