@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 289704560452285107}
   - component: {fileID: 447534409736712073}
   - component: {fileID: 3149801564602527651}
+  - component: {fileID: 1573671408237776460}
   m_Layer: 0
   m_Name: Small Crate Variation 001
   m_TagString: Untagged
@@ -26,13 +27,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3647054164562416041}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4796596267081106640}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &289704560452285107
 MeshFilter:
@@ -105,6 +106,22 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.60637283, y: 0.60263324, z: 0.60276794}
   m_Center: {x: 0, y: 0.29994148, z: 0}
+--- !u!208 &1573671408237776460
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3647054164562416041}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.303, y: 0.30100003, z: 0.30100003}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0.002, y: 0.3, z: -0.003}
+  m_TimeToStationary: 0.5
 --- !u!1 &6269477357590604756
 GameObject:
   m_ObjectHideFlags: 0
@@ -128,6 +145,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6269477357590604756}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -135,5 +153,4 @@ Transform:
   m_Children:
   - {fileID: 2137953926544050682}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
