@@ -21,7 +21,7 @@ namespace Interactions
 
         public void PickUp_Obj()
         {
-            Debug.Log("Picked up Obj...");
+            // Debug.Log("Picked up Obj...");
             objInINV.SetActive(true);
             StartCoroutine(Delay());
         }

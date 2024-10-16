@@ -90,9 +90,9 @@ namespace Enemy
                         if (detectionRadius == OGdetectionRadius || detectionRadius == detectionRadius * 2)
                         {
                             detectionRadius = OGdetectionRadius;
-                            Debug.Log(detectionRadius);
+                            // Debug.Log(detectionRadius);
                             detectionRadius = detectionRadius / 2;
-                            Debug.Log(detectionRadius);
+                            // Debug.Log(detectionRadius);
                         }
                     }
                     else
@@ -481,7 +481,7 @@ namespace Enemy
             {
                 if (other.tag == "NearDoor")
                 {
-                    Debug.Log("In front door");
+                    // Debug.Log("In front door");
                     TransitionToState(AIState.Idle);
                     //nearDoor = true;
                     other.GetComponentInChildren<RayDoor>().CheckDoorForAI();

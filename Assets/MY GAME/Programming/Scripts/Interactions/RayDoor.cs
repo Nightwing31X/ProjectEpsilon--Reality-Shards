@@ -110,23 +110,25 @@ namespace Interactions
 
         void CheckDoorAIInteract()
         {
-            Debug.Log("AI is interacting with the Door...");
+            // Debug.Log("AI is interacting with the Door...");
             if (lockedDoor)
             {
                 if (keyOBJNeeded.activeInHierarchy)
                 {
                     isOpen = true;
                     animator.SetBool("open", isOpen);
+                    openDoorAS.Play();
                 }
-                else
-                {
-                    Debug.Log("Player doesn't have key, AI cannot open door...");
-                }
+                // else
+                // {
+                //     Debug.Log("Player doesn't have key, AI cannot open door...");
+                // }
             }
             else
             {
                 isOpen = true;
                 animator.SetBool("open", isOpen);
+                openDoorAS.Play();
             }
         }
     }

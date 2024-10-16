@@ -52,6 +52,9 @@ namespace Player
             {
                 _movementSpeed = _run;
 
+                isRun = _isRunning;
+                isCrouch = false;
+
                 _stamina -= _staminaCost * Time.deltaTime;
                 if (_stamina < 0)
                 {
@@ -80,8 +83,10 @@ namespace Player
             }
             else if (_isRunning && _movementSpeed == _run && _stamina == 0)
             {
-                //Debug.Log("Hey I should be out of running and be walking right now!!!");
+                // Debug.Log("Hey I should be out of running and be walking right now!!!");
                 _movementSpeed = _walk;
+                isRun = false;
+                isCrouch = false;
             }
         }
         void regenStamina()
@@ -148,18 +153,16 @@ namespace Player
                 // Speed change
                 // _movementSpeed, _walk, _run, _crouch
                 // Left Shift and Left Control
-                if (Input.GetKey(KeyCode.LeftShift) && _playerMoving)
+                if (Input.GetButton("Sprint") && _playerMoving)
                 {
                     //_movementSpeed = _run;
                     staminaContainerOBJ.SetActive(true);
                     Sprint();
                     _isRunning = true;
-                    isRun = _isRunning;
-                    isCrouch = false;
                     _canRegenStamina = false;
                     timerValue = 0;
                 }
-                else if (Input.GetKey(KeyCode.LeftControl))
+                else if (Input.GetButton("Crouch"))
                 {
                     _movementSpeed = _crouch;
                     if (!_isRunning)
@@ -210,7 +213,7 @@ namespace Player
 
                         //_moveDirection = transform.TransformDirection(new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical")) * _movementSpeed);
 
-                            // If we jump
+                        // If we jump
                         if (KeyBindManager.Keys.Count <= 0)
                         {
                             if (Input.GetButton("Jump"))
