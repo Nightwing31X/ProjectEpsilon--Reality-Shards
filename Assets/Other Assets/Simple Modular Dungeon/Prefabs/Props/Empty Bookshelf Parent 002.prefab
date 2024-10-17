@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5614928729470487081}
+  - component: {fileID: 4105285516123972001}
   m_Layer: 0
   m_Name: Empty Bookshelf Parent 002
   m_TagString: Untagged
@@ -32,6 +33,22 @@ Transform:
   - {fileID: 3293618022458003505}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!208 &4105285516123972001
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2018572914205273469}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.34, y: 1.5, z: 1.138}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: -0.43, y: 1.4, z: -0.014}
+  m_TimeToStationary: 0.5
 --- !u!1 &5523908580034185018
 GameObject:
   m_ObjectHideFlags: 0
@@ -44,6 +61,7 @@ GameObject:
   - component: {fileID: 1486533157577813502}
   - component: {fileID: 7147332704608458741}
   - component: {fileID: 4692060483607328906}
+  - component: {fileID: 8994221909727728867}
   m_Layer: 2
   m_Name: Bookshelf Variation(empty) 002
   m_TagString: Untagged
@@ -137,3 +155,19 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.7, y: 3, z: 2.25}
   m_Center: {x: 0, y: 1.5, z: 0}
+--- !u!208 &8994221909727728867
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5523908580034185018}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.34, y: 1.519, z: 1.138}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: -0.009000001, y: 1.5120001, z: -0.014}
+  m_TimeToStationary: 0.5

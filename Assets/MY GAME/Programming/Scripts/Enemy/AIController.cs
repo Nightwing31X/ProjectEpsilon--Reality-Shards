@@ -463,6 +463,7 @@ namespace Enemy
 
         public void Interact()
         {
+            Debug.Log("Yep I have run...");
             if (GameManager.instance.state == GameStates.Play)
             {
                 if (!_isStunned)
