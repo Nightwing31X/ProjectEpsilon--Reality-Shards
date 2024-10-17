@@ -101,7 +101,10 @@ namespace Interactions
 
         public void Interact()
         {
-            openBook();
+            if (!_isReading)
+            {
+                openBook();
+            }
         }
     }
 }

@@ -13,7 +13,7 @@ namespace Player
     {
         [SerializeField] GameObject MenuPaused;
         [SerializeField] GameObject PlayerHUD;
-        [SerializeField] Button respawnPauseBTN;
+        [SerializeField] Button restartPauseBTN;
         GameObject player;
 
         [SerializeField] bool PausedMenu = false;
@@ -25,7 +25,7 @@ namespace Player
         // Start is called before the first frame update
         void Start()
         {
-            Time.timeScale = 1;
+            //Time.timeScale = 1;
             PausedMenu = false;
             MenuPaused.SetActive(PausedMenu);
 
@@ -51,13 +51,13 @@ namespace Player
                     _inCutscene = GameManager.instance.inCutscene;
                     if (_inCutscene)
                     {
-                        respawnPauseBTN.interactable = false; //? This leaves the button on the screen with the disabled color and the user can’t click it
-                        //respawnPauseBTN.enabled = false; //? This leaves the button on the screen, the user can’t click it, but does NOT use the disabled color
-                        //respawnPauseBTN.gameObject.SetActive(false); //? This removes the button from the UI entirely:
+                        restartPauseBTN.interactable = false; //? This leaves the button on the screen with the disabled color and the user can’t click it
+                        //restartPauseBTN.enabled = false; //? This leaves the button on the screen, the user can’t click it, but does NOT use the disabled color
+                        //restartPauseBTN.gameObject.SetActive(false); //? This removes the button from the UI entirely:
                     }
                     else
                     {
-                        respawnPauseBTN.interactable = true;
+                        restartPauseBTN.interactable = true;
                     }
                 }
                 else if (PausedMenu && Input.GetButtonDown("Pause"))
@@ -94,7 +94,7 @@ namespace Player
             PlayerHUD.SetActive(true);
         }
 
-        public void Respawn()
+        public void Restart()
         {
             // player.GetComponent<Health>().Respawn();
             // PausedMenu = false;

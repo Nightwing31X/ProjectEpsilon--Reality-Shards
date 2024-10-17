@@ -18,7 +18,7 @@ namespace Player
         [SerializeField] private bool hasRan;
         // [Tooltip("The distance that the player can reach interactions.")]
         [Tooltip("The distance that the player can reach interactions."), SerializeField, Range(0, 100)] private float distance = 10f;
-        
+
         public bool showToolTip = false;
         //public string action, button, instruction;
         public bool pickUpObj;
@@ -44,6 +44,8 @@ namespace Player
                 {
                     Debug.DrawRay(transform.position, transform.forward * distance, Color.yellow, 0.5f);
                 }
+
+                # region Detect the interact layer (Interaction Layer)
                 if (hitInfo.transform.gameObject.layer == LayerMask.NameToLayer(interactionLayer))
                 {
                     if (debug)
@@ -56,9 +58,9 @@ namespace Player
                     }
                     showToolTip = true;
                     attackToolTip = false;
+                    OnGUI(); // Displays out ToolTip
                     if (KeyBindManager.Keys.Count <= 0)
                     {
-                        OnGUI(); // Displays out ToolTip
                         if (Input.GetButtonDown("Interaction"))
                         {
                             if (hitInfo.collider.TryGetComponent(out IInteractable interactableObject))
@@ -69,7 +71,7 @@ namespace Player
                     }
                     else
                     {
-                        if (Input.GetKey(KeyBindManager.Keys["Interact"]))
+                        if (Input.GetKeyDown(KeyBindManager.Keys["Interact"]))
                         {
                             if (hitInfo.collider.TryGetComponent(out IInteractable interactableObject))
                             {
@@ -78,6 +80,8 @@ namespace Player
                         }
                     }
                 }
+                # endregion
+                # region Detect the attack layer (Enemy Layer)
                 if (hitInfo.transform.gameObject.layer == LayerMask.NameToLayer(attackLayer))
                 {
                     if (debug)
@@ -91,25 +95,24 @@ namespace Player
                     showToolTip = true;
                     attackToolTip = true;
                     OnGUI(); // Displays out ToolTip
+                    // if (KeyBindManager.Keys.Count <= 0)
+                    // {
                     if (Input.GetButtonDown("Attack"))
                     {
                         if (hitInfo.collider.TryGetComponent(out IInteractable interactableObject))
                         {
                             interactableObject.Interact();
-                            Debug.Log("I have hit the enemy");
+                            if (debug)
+                            {
+                                hasRan = false;
+                                if (!hasRan)
+                                {
+                                    Debug.Log("I have hit the enemy");
+                                    hasRan = true;
+                                }
+                            }
                         }
                     }
-                    #region This is the KeyBind Manager Way - Need to add this...
-                    // if (KeyBindManager.Keys.Count <= 0)
-                    // {
-                    //     OnGUI(); // Displays out ToolTip
-                    //     if (Input.GetButtonDown("Attack"))
-                    //     {
-                    //         if (hitInfo.collider.TryGetComponent(out IInteractable interactableObject))
-                    //         {
-                    //             interactableObject.Interact();
-                    //         }
-                    //     }
                     // }
                     // else
                     // {
@@ -118,11 +121,20 @@ namespace Player
                     //         if (hitInfo.collider.TryGetComponent(out IInteractable interactableObject))
                     //         {
                     //             interactableObject.Interact();
+                    //             if (debug)
+                    //             {
+                    //                 hasRan = false;
+                    //                 if (!hasRan)
+                    //                 {
+                    //                     Debug.Log("I have hit the enemy");
+                    //                     hasRan = true;
+                    //                 }
+                    //             }
                     //         }
                     //     }
                     // }
-                    #endregion
                 }
+                # endregion
             }
             else
             {
