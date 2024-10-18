@@ -41,10 +41,7 @@ namespace Player
             {
                 if (!PausedMenu && Input.GetButtonDown("Pause"))
                 {
-                    // Clear selected object
-                    EventSystem.current.SetSelectedGameObject(null);
-                    // Set a new selected object
-                    EventSystem.current.SetSelectedGameObject(pausedmenuFirstObject);
+                    SelectObjectUI();
                     //Time.timeScale = 0;
                     GameManager.instance.OnPause();
                     GameManager.instance.inPause = true;
@@ -75,6 +72,14 @@ namespace Player
                     PlayerHUD.SetActive(true);
                 }
             }
+        }
+
+        public void SelectObjectUI()
+        {
+            // Clear selected object
+            EventSystem.current.SetSelectedGameObject(null);
+            // Set a new selected object
+            EventSystem.current.SetSelectedGameObject(pausedmenuFirstObject);
         }
 
         private void CheckState()

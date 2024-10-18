@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using System.Collections;
 using GameDev;
 using UnityEngine.AI;
+using UnityEngine.EventSystems;
 
 
 namespace Player
@@ -26,6 +27,7 @@ namespace Player
         private GameObject HUD;
         [SerializeField] private Image healthImpact;
         private GameObject gameoverContainer;
+        public GameObject gameoverSelect;
         private GameObject mainCamera;
         [SerializeField] public bool isPlayerDead = false;
         public GameObject particalAura;
@@ -72,6 +74,10 @@ namespace Player
                 isPlayerDead = true;
                 // Turn on GameOver Menu
                 gameoverContainer.SetActive(true);
+                // Clear selected object
+                EventSystem.current.SetSelectedGameObject(null);
+                // Set a new selected object
+                EventSystem.current.SetSelectedGameObject(gameoverSelect);
                 // Turn off Health Menu
                 HUD.SetActive(false);
             }

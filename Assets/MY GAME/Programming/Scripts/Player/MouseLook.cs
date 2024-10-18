@@ -60,6 +60,7 @@ namespace Player
                 if (_axis == RotationalAxis.MouseMovementX)
                 {
                     transform.Rotate(0, Input.GetAxis("Mouse X") * _sensitivity, 0);
+                    transform.Rotate(0, Input.GetAxis("Mouse X - RightStick") * _sensitivity, 0);
                 }
                 #endregion
                 #region Vertical Mouse Movement
@@ -67,6 +68,7 @@ namespace Player
                 {
                     // Get the rotation direction and speed
                     _rotationY += Input.GetAxis("Mouse Y") * _sensitivity;
+                    _rotationY += Input.GetAxis("Mouse Y - RightStick") * _sensitivity;
                     // Clamp
                     _rotationY = Mathf.Clamp(_rotationY, _rotationRangeY.x, _rotationRangeY.y);
                     // Apply

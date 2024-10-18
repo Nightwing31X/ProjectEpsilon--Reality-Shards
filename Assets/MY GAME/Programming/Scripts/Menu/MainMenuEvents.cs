@@ -10,7 +10,7 @@ namespace Menu
     [AddComponentMenu("GameDev/Menu/MainMenu Events")]
     public class MainMenuEvents : MonoBehaviour
     {
-        public GameObject menuFirstButton, optionsFirstButton, optionsButton;
+        public GameObject currentButton, menuFirstButton, optionsFirstButton, optionsButton;
 
         public void ChangeScene(int sceneNumber)
         {
@@ -27,12 +27,16 @@ namespace Menu
 
         private void Awake()
         {
+            SelectObjectUI();
+        }
+
+        public void SelectObjectUI()
+        {
             // Clear selected object
             EventSystem.current.SetSelectedGameObject(null);
             // Set a new selected object
             EventSystem.current.SetSelectedGameObject(menuFirstButton);
         }
-
         public void openOptionsMenu()
         {
             // Clear selected object

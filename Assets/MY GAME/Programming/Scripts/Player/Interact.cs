@@ -1,8 +1,8 @@
+using System;
 using System.Collections;
 using System.Reflection.Emit;
 using GameDev;
 using Menu;
-using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 
 namespace Player
@@ -15,24 +15,29 @@ namespace Player
         public string interactionLayer;
         public string attackLayer;
         [Tooltip("Toggle on to print console messages from this component.")]
-        [SerializeField] private bool debug;
-        [SerializeField] private bool hasRan;
-        // [Tooltip("The distance that the player can reach interactions.")]
+        [SerializeField] private bool _debug;
+        [SerializeField] private bool _hasRan;
+        [SerializeField] private bool _checkControllerInput;
+        [SerializeField] private bool _forceControllerInput;
         [Tooltip("The distance that the player can reach interactions."), SerializeField, Range(0, 100)] private float distance = 10f;
 
         public bool showToolTip = false;
         //public string action, button, instruction;
         public bool pickUpObj;
         public bool attackToolTip;
-        public GameObject PickUpText; //# Text to pickup things
-        public GameObject AttackText;
+        public GameObject keyboardPickUpText; //# Text to pickup things
+        public GameObject keyboardAttackText;
+        public GameObject controllerPickUpText; //# Text to pickup things
+        public GameObject controllerAttackText;
         private void Update()
         {
+            _forceControllerInput = InputHandler.instance.forceController;
+            _checkControllerInput = InputHandler.instance.onController;
             // create a ray (a Ray is ?? a beam, line that comes into contact with colliders)
             Ray interactRay;
             // this ray shoots forward from the center of the camera
             interactRay = Camera.main.ScreenPointToRay(new Vector2(Screen.width / 2, Screen.height / 2));
-            if (debug)
+            if (_debug)
             {
                 Debug.DrawRay(interactRay.origin, transform.forward * distance, Color.green);
             }
@@ -41,7 +46,7 @@ namespace Player
             // if this physics ray that gets cast in a direction hits a object within our distance and or layer
             if (Physics.Raycast(interactRay, out hitInfo, distance, Layers /*This part here is the layer its optional*/ ))
             {
-                if (debug)
+                if (_debug)
                 {
                     Debug.DrawRay(transform.position, transform.forward * distance, Color.yellow, 0.5f);
                 }
@@ -49,12 +54,12 @@ namespace Player
                 # region Detect the interact layer (Interaction Layer)
                 if (hitInfo.transform.gameObject.layer == LayerMask.NameToLayer(interactionLayer))
                 {
-                    if (debug)
+                    if (_debug)
                     {
-                        if (!hasRan)
+                        if (!_hasRan)
                         {
                             Debug.Log($"Hit Layer = {interactionLayer}");
-                            hasRan = true;
+                            _hasRan = true;
                         }
                     }
                     showToolTip = true;
@@ -85,12 +90,12 @@ namespace Player
                 # region Detect the attack layer (Enemy Layer)
                 if (hitInfo.transform.gameObject.layer == LayerMask.NameToLayer(attackLayer))
                 {
-                    if (debug)
+                    if (_debug)
                     {
-                        if (!hasRan)
+                        if (!_hasRan)
                         {
                             Debug.Log($"Hit Layer = {attackLayer}");
-                            hasRan = true;
+                            _hasRan = true;
                         }
                     }
                     showToolTip = true;
@@ -103,13 +108,13 @@ namespace Player
                         if (hitInfo.collider.TryGetComponent(out IInteractable interactableObject))
                         {
                             interactableObject.Interact();
-                            if (debug)
+                            if (_debug)
                             {
-                                hasRan = false;
-                                if (!hasRan)
+                                _hasRan = false;
+                                if (!_hasRan)
                                 {
                                     Debug.Log("I have hit the enemy");
-                                    hasRan = true;
+                                    _hasRan = true;
                                 }
                             }
                         }
@@ -122,13 +127,13 @@ namespace Player
                     //         if (hitInfo.collider.TryGetComponent(out IInteractable interactableObject))
                     //         {
                     //             interactableObject.Interact();
-                    //             if (debug)
+                    //             if (_debug)
                     //             {
-                    //                 hasRan = false;
-                    //                 if (!hasRan)
+                    //                 _hasRan = false;
+                    //                 if (!_hasRan)
                     //                 {
                     //                     Debug.Log("I have hit the enemy");
-                    //                     hasRan = true;
+                    //                     _hasRan = true;
                     //                 }
                     //             }
                     //         }
@@ -141,9 +146,11 @@ namespace Player
             {
                 showToolTip = false;
                 attackToolTip = false;
-                PickUpText.SetActive(false); //# Pickup text turns off
-                AttackText.SetActive(false);
-                hasRan = false;
+                keyboardPickUpText.SetActive(false); //# Pickup text turns off
+                keyboardAttackText.SetActive(false);
+                controllerPickUpText.SetActive(false);
+                controllerAttackText.SetActive(false);
+                _hasRan = false;
             }
         }
         void OnGUI()
@@ -152,15 +159,59 @@ namespace Player
             {
                 if (pickUpObj)
                 {
-                    if (!attackToolTip)
+                    if (_forceControllerInput)
                     {
-                        AttackText.SetActive(false);
-                        PickUpText.SetActive(true); //# Pickup text turns on
+                        if (!attackToolTip)
+                        {
+                            controllerAttackText.SetActive(false);
+                            controllerPickUpText.SetActive(true);
+                        }
+                        else
+                        {
+                            controllerPickUpText.SetActive(false);
+                            controllerAttackText.SetActive(true);
+                        }
                     }
                     else
                     {
-                        PickUpText.SetActive(false);
-                        AttackText.SetActive(true);
+                        if (_checkControllerInput)
+                        {
+                            if (!attackToolTip)
+                            {
+                                keyboardAttackText.SetActive(false);
+                                keyboardPickUpText.SetActive(false);
+
+                                controllerAttackText.SetActive(false);
+                                controllerPickUpText.SetActive(true);
+                            }
+                            else
+                            {
+                                keyboardAttackText.SetActive(false);
+                                keyboardPickUpText.SetActive(false);
+
+                                controllerPickUpText.SetActive(false);
+                                controllerAttackText.SetActive(true);
+                            }
+                        }
+                        else
+                        {
+                            if (!attackToolTip)
+                            {
+                                controllerPickUpText.SetActive(false);
+                                controllerAttackText.SetActive(false);
+
+                                keyboardAttackText.SetActive(false);
+                                keyboardPickUpText.SetActive(true); //# Pickup text turns on
+                            }
+                            else
+                            {
+                                controllerPickUpText.SetActive(false);
+                                controllerAttackText.SetActive(false);
+
+                                keyboardPickUpText.SetActive(false);
+                                keyboardAttackText.SetActive(true);
+                            }
+                        }
                     }
                 }
             }

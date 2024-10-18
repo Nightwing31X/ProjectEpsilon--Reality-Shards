@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Menu;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -26,18 +27,8 @@ namespace GameDev
         [SerializeField] private GameObject CreditContainer;
 
 
-
-
         private void Awake()
         {
-            if (CreditContainer == null)
-            {
-                Debug.LogWarning("NEED TO PUT IN THE CREDITCONTAINER MENU!!!");
-            }
-            else
-            {
-                CreditContainer.SetActive(false);
-            }
             if (instance == null)
             {
                 instance = this;
@@ -46,8 +37,17 @@ namespace GameDev
             {
                 Destroy(this);
             }
+            if (CreditContainer == null)
+            {
+                Debug.LogWarning("NEED TO PUT IN THE CREDITCONTAINER MENU!!!");
+            }
+            else
+            {
+                CreditContainer.SetActive(false);
+            }
             OnPlay();
         }
+
         public void OnPlay()
         {
             Cursor.lockState = CursorLockMode.Locked;

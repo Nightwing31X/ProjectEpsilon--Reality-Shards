@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Rendering;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 
 namespace Interactions
@@ -20,6 +21,7 @@ namespace Interactions
         [SerializeField][TextArea] private string _readingContent;
         //public Animator bookAnim;
         public GameObject bookOBJ;
+        public GameObject closeButton;
         [SerializeField] private bool _isReading = false;
         [SerializeField] private bool _customText = false;
         [SerializeField] private bool _fireOnce = false;
@@ -43,6 +45,10 @@ namespace Interactions
 
         void openBook()
         {
+            // Clear selected object
+            EventSystem.current.SetSelectedGameObject(null);
+            // Set a new selected object
+            EventSystem.current.SetSelectedGameObject(closeButton);
             _isReading = true;
             if (GameManager.instance.state != GameStates.Menu)
             {
