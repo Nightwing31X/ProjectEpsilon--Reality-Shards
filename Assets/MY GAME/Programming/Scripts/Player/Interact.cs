@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Reflection.Emit;
+using GameDev;
 using Menu;
 using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
@@ -59,26 +60,26 @@ namespace Player
                     showToolTip = true;
                     attackToolTip = false;
                     OnGUI(); // Displays out ToolTip
-                    if (KeyBindManager.Keys.Count <= 0)
+                    //if (KeyBindManager.Keys.Count <= 0)
+                    //{
+                    if (Input.GetButtonDown("Interaction"))
                     {
-                        if (Input.GetButtonDown("Interaction"))
+                        if (hitInfo.collider.TryGetComponent(out IInteractable interactableObject))
                         {
-                            if (hitInfo.collider.TryGetComponent(out IInteractable interactableObject))
-                            {
-                                interactableObject.Interact();
-                            }
+                            interactableObject.Interact();
                         }
                     }
-                    else
-                    {
-                        if (Input.GetKeyDown(KeyBindManager.Keys["Interact"]))
-                        {
-                            if (hitInfo.collider.TryGetComponent(out IInteractable interactableObject))
-                            {
-                                interactableObject.Interact();
-                            }
-                        }
-                    }
+                    //}
+                    //else
+                    //{
+                    //    if (Input.GetKeyDown(KeyBindManager.Keys["Interact"]))
+                    //    {
+                    //        if (hitInfo.collider.TryGetComponent(out IInteractable interactableObject))
+                    //        {
+                    //            interactableObject.Interact();
+                    //        }
+                    //    }
+                    //}
                 }
                 # endregion
                 # region Detect the attack layer (Enemy Layer)

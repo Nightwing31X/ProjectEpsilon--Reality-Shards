@@ -5,6 +5,8 @@ using Player;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
+
 
 namespace Player
 {
@@ -20,7 +22,7 @@ namespace Player
         //[SerializeField] bool _inDialogue;
         [SerializeField] bool _inCutscene;
 
-
+        public GameObject pausedmenuFirstObject;
 
         // Start is called before the first frame update
         void Start()
@@ -39,6 +41,10 @@ namespace Player
             {
                 if (!PausedMenu && Input.GetButtonDown("Pause"))
                 {
+                    // Clear selected object
+                    EventSystem.current.SetSelectedGameObject(null);
+                    // Set a new selected object
+                    EventSystem.current.SetSelectedGameObject(pausedmenuFirstObject);
                     //Time.timeScale = 0;
                     GameManager.instance.OnPause();
                     GameManager.instance.inPause = true;
