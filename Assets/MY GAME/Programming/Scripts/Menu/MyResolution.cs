@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using GameDev;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,14 +8,24 @@ using UnityEngine.UI;
 namespace Menu
 {
     [AddComponentMenu("GameDev/Menu/Resolution")]
-    public class Resolution : MonoBehaviour
+    public class MyResolution : MonoBehaviour
     {
-
+        public Toggle fullscreenToggle;
+        public Toggle controllerToggle;
         public GameObject keyboardLayout, controllerLayout;
 
         public void FullscreenToggle(bool isFullscreen)
         {
             Screen.fullScreen = isFullscreen;
+            if (GetComponent<saveFullscreen>().refFullscreen != isFullscreen)
+            {
+                GetComponent<saveFullscreen>().refFullscreen = isFullscreen;
+            }
+            else
+            {
+                fullscreenToggle.isOn = isFullscreen;
+            }
+            //Debug.Log(isFullscreen);
         }
 
         public void ControllerToggle(bool useController)
@@ -25,16 +36,24 @@ namespace Menu
                 keyboardLayout.SetActive(false);
                 // Show the controller Layout
                 controllerLayout.SetActive(true);
-
             } 
             else
             {
                 keyboardLayout.SetActive(true);
                 controllerLayout.SetActive(false);
             }
+            if (GetComponent<saveController>().refUsingController != useController)
+            {
+                GetComponent<saveController>().refUsingController = useController;
+            }
+            else
+            {
+                controllerToggle.isOn = useController;
+            }
+            //Debug.Log(useController);
         }
         
-        
+
 
         //public UnityEngine.Resolution[] resolutions;
         // public Dropdown resolutionDropdown;

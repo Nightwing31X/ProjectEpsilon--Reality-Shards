@@ -18,6 +18,7 @@ namespace GameDev
         public bool inDialogue = false;
         public bool inDialoguePlace = false;
         public bool inPause = false;
+        public bool inBook = false;
         public string currentGameState;
 
 
@@ -48,6 +49,34 @@ namespace GameDev
             OnPlay();
         }
 
+        public void CheckCurrentStat()
+        {
+            if (state == GameStates.Play)
+            {
+                OnPlay();
+            }
+            else if (state == GameStates.Pause)
+            {
+                OnPause();
+            }
+            else if (state == GameStates.Menu)
+            {
+                OnMenu();
+            }
+            else if (state == GameStates.Death)
+            {
+                OnDeath();
+            }
+            else if (state == GameStates.EndGame)
+            {
+                OnEndGame();
+            }
+            else 
+            {
+                Debug.LogWarning("GAME MANAGER - THIS SHOULD NOT SHOW AS CURRENT STATE!!!");
+            }
+        }
+
         public void OnPlay()
         {
             Cursor.lockState = CursorLockMode.Locked;
@@ -58,21 +87,54 @@ namespace GameDev
         public void OnPause()
         {
             Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
+            if (InputHandler.instance.forceController)
+            {
+                Cursor.visible = false;
+            }
+            if (InputHandler.instance.onController)
+            {
+                Cursor.visible = false;
+            }
+            if (InputHandler.instance.onKeyboard)
+            {
+                Cursor.visible = true;
+            }
             state = GameStates.Pause;
             currentGameState = "Pause";
         }
         public void OnMenu()
         {
             Cursor.lockState = CursorLockMode.Confined;
-            Cursor.visible = true;
+            if (InputHandler.instance.forceController)
+            {
+                Cursor.visible = false;
+            }
+            if (InputHandler.instance.onController)
+            {
+                Cursor.visible = false;
+            }
+            if (InputHandler.instance.onKeyboard)
+            {
+                Cursor.visible = true;
+            }
             state = GameStates.Menu;
             currentGameState = "Menu";
         }
         public void OnDeath()
         {
             Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
+            if (!InputHandler.instance.forceController)
+            {
+                Cursor.visible = false;
+            }
+            if (InputHandler.instance.onController)
+            {
+                Cursor.visible = false;
+            }
+            if (InputHandler.instance.onKeyboard)
+            {
+                Cursor.visible = true;
+            }
             state = GameStates.Death;
             currentGameState = "Death";
         }

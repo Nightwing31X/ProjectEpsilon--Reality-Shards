@@ -6,6 +6,7 @@ using UnityEngine.Events;
 using UnityEngine.Rendering;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using Menu;
 
 
 namespace Interactions
@@ -17,6 +18,8 @@ namespace Interactions
         public GameObject textContainer;
         public Text textOBJ;
         public GameObject customTextContainer;
+        public GameObject KeyboardText;
+        public GameObject ControllerText;
         [Tooltip("The text that will be displayed when the player interacts with the book.")]
         [SerializeField][TextArea] private string _readingContent;
         //public Animator bookAnim;
@@ -43,8 +46,47 @@ namespace Interactions
             }
         }
 
+        void Update()
+        {
+            if (_isReading)
+            {
+                if (!InputHandler.instance.forceController)
+                {
+                    if (InputHandler.instance.onController)
+                    {
+                        ControllerText.SetActive(true);
+                        KeyboardText.SetActive(false);
+                    }
+                    else if (InputHandler.instance.onKeyboard)
+                    {
+                        KeyboardText.SetActive(true);
+                        ControllerText.SetActive(false);
+                    }
+                }
+                List<RaycastResult> results = new List<RaycastResult>();
+                var pointerEventData = new PointerEventData(EventSystem.current) { position = Input.mousePosition };
+                EventSystem.current.RaycastAll(pointerEventData, results);
+                foreach (var r in results)
+                {
+                    if (r.gameObject && r.gameObject.TryGetComponent(out Selectable sel))
+                    {
+                        if (sel.interactable)
+                        {
+                            EventSystem.current.SetSelectedGameObject(r.gameObject);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
         void openBook()
         {
+            if (InputHandler.instance.forceController)
+            {
+                ControllerText.SetActive(true);
+                KeyboardText.SetActive(false);
+            }
             // Clear selected object
             EventSystem.current.SetSelectedGameObject(null);
             // Set a new selected object
@@ -53,6 +95,7 @@ namespace Interactions
             if (GameManager.instance.state != GameStates.Menu)
             {
                 GameManager.instance.OnMenu();
+                GameManager.instance.inBook = _isReading;
             }
             if (!_customText)
             {
@@ -98,6 +141,7 @@ namespace Interactions
             if (GameManager.instance.state != GameStates.Play)
             {
                 GameManager.instance.OnPlay();
+                GameManager.instance.inBook = _isReading;
             }
             if (_events)
             {

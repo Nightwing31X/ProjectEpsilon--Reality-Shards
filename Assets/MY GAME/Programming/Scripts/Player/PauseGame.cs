@@ -37,9 +37,23 @@ namespace Player
         // Update is called once per frame
         void Update()
         {
-            if (GameManager.instance.state == GameStates.Play)
+            if (!GameManager.instance.inBook)
             {
-                if (!PausedMenu && Input.GetButtonDown("Pause"))
+                List<RaycastResult> results = new List<RaycastResult>();
+                var pointerEventData = new PointerEventData(EventSystem.current) { position = Input.mousePosition };
+                EventSystem.current.RaycastAll(pointerEventData, results);
+                foreach (var r in results)
+                {
+                    if (r.gameObject && r.gameObject.TryGetComponent(out Selectable sel))
+                    {
+                        if (sel.interactable)
+                        {
+                            EventSystem.current.SetSelectedGameObject(r.gameObject);
+                            break;
+                        }
+                    }
+                }
+                if (!PausedMenu && Input.GetButtonUp("Pause"))
                 {
                     SelectObjectUI();
                     //Time.timeScale = 0;
@@ -63,7 +77,7 @@ namespace Player
                         restartPauseBTN.interactable = true;
                     }
                 }
-                else if (PausedMenu && Input.GetButtonDown("Pause"))
+                else if (PausedMenu && Input.GetButtonUp("Pause"))
                 {
                     //Time.timeScale = 1;
                     CheckState();

@@ -161,6 +161,8 @@ namespace Player
                 {
                     if (_forceControllerInput)
                     {
+                        keyboardAttackText.SetActive(false);
+                        keyboardPickUpText.SetActive(false);
                         if (!attackToolTip)
                         {
                             controllerAttackText.SetActive(false);
