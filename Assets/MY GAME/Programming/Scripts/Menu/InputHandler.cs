@@ -1,6 +1,8 @@
 using UnityEngine;
 using System;
 using GameDev;
+using UnityEngine.SceneManagement;
+
 
 namespace Menu
 {
@@ -44,42 +46,45 @@ namespace Menu
 
         private void Update()
         {
-            if (!forceController)
+            if (SceneManager.GetActiveScene().buildIndex == 1 || SceneManager.GetActiveScene().buildIndex == 2)
             {
-                _currentInputMode = ProcessInputMode();
+                if (!forceController)
+                {
+                    _currentInputMode = ProcessInputMode();
 
-                if (_currentInputMode != _inputModeLastFrame)
-                {
-                    OnInputModeChanged?.Invoke(_currentInputMode);
-                }
+                    if (_currentInputMode != _inputModeLastFrame)
+                    {
+                        OnInputModeChanged?.Invoke(_currentInputMode);
+                    }
 
-                _inputModeLastFrame = ProcessInputMode();
+                    _inputModeLastFrame = ProcessInputMode();
 
 
-                if (_currentInputMode == InputMode.Controller)
-                {
-                    onController = true;
-                    onKeyboard = false;
-                    onTouch = false;
-                    GameManager.instance.CheckCurrentStat();
-                }
-                else if (_currentInputMode == InputMode.Keyboard)
-                {
-                    onKeyboard = true;
-                    onController = false;
-                    onTouch = false;
-                    GameManager.instance.CheckCurrentStat();
-                }
-                else if (_currentInputMode == InputMode.Touch)
-                {
-                    onTouch = true;
-                    onController = false;
-                    onKeyboard = false;
-                    GameManager.instance.CheckCurrentStat();
-                }
-                else
-                {
-                    Debug.LogWarning("THIS SHOULD NEVER SHOW!!!");
+                    if (_currentInputMode == InputMode.Controller)
+                    {
+                        onController = true;
+                        onKeyboard = false;
+                        onTouch = false;
+                        GameManager.instance.CheckCurrentStat();
+                    }
+                    else if (_currentInputMode == InputMode.Keyboard)
+                    {
+                        onKeyboard = true;
+                        onController = false;
+                        onTouch = false;
+                        GameManager.instance.CheckCurrentStat();
+                    }
+                    else if (_currentInputMode == InputMode.Touch)
+                    {
+                        onTouch = true;
+                        onController = false;
+                        onKeyboard = false;
+                        GameManager.instance.CheckCurrentStat();
+                    }
+                    else
+                    {
+                        Debug.LogWarning("THIS SHOULD NEVER SHOW!!!");
+                    }
                 }
             }
         }

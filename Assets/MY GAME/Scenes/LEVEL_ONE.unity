@@ -86549,6 +86549,7 @@ GameObject:
   - component: {fileID: 1801452231}
   - component: {fileID: 1801452233}
   - component: {fileID: 1801452230}
+  - component: {fileID: 1801452234}
   m_Layer: 0
   m_Name: FAKE_LAST_KEY
   m_TagString: Untagged
@@ -86633,6 +86634,40 @@ MonoBehaviour:
   oneTime: 1
   inCutscene: 0
   cutsceneDuration: 9
+--- !u!114 &1801452234
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1801452227}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6bd3a3a85e397bd4897b5d171cd94cc2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _anim: {fileID: 0}
+  _autoClose: 0
+  _haveAnim: 0
+  _events: 1
+  _waitForEvent: 0
+  Room_Keep: {fileID: 0}
+  Room_Hide: {fileID: 0}
+  _customEvents:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 410236997}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1001 &1803216600
 PrefabInstance:
   m_ObjectHideFlags: 0
